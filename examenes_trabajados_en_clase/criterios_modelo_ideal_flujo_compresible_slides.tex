@@ -1,0 +1,329 @@
+
+\documentclass[aspectratio=169]{beamer}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{siunitx}
+\usepackage{amsmath,amssymb}
+\usetheme{Madrid}
+
+\title[Criterios de modelo ideal]{Criterios para la elección del modelo ideal\\en flujo compresible en conductos}
+\author{}
+\date{}
+
+\begin{document}
+
+%------------------------------------------------
+\begin{frame}
+  \titlepage
+\end{frame}
+%------------------------------------------------
+
+\begin{frame}{Punto de partida: expresión general para $w/A$}
+Del balance de energía mecánica en una conducción horizontal, sección constante y flujo estacionario compresible:
+
+\begin{equation*}
+\left(\frac{w}{A}\right)^2 \ln\!\frac{v_2}{v_1}
+\;+\;\int_1^2 \frac{\mathrm dP}{v}
+\;+\;2 f \frac{L}{D}\left(\frac{w}{A}\right)^2 = 0
+\end{equation*}
+
+\pause
+
+\begin{equation*}
+\frac{w}{A}
+=
+\left[
+-\frac{\displaystyle \int_1^2 \frac{\mathrm dP}{v}}
+{\displaystyle \ln\!\frac{v_2}{v_1} + 2 f\frac{L}{D}}
+\right]^{1/2}.
+\end{equation*}
+
+\pause
+
+\begin{itemize}
+  \item Para comparar modelos (isotérmico, adiabático, con calor, etc.) mantenemos:
+  \begin{itemize}
+    \item misma caída de presión $\Delta P$,
+    \item mismo término de fricción $2fL/D$,
+  \end{itemize}
+  \item y analizamos cómo cambian $-\int dP/v$ y $\ln(v_2/v_1)$.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Isotérmico vs.\ adiabático (mismos $P_1,P_2$)}
+Gas ideal: $Pv/T = \text{cte}$.
+
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Isotérmico}
+\begin{itemize}
+  \item $T_2 = T_1$.
+  \item $v_{2,i}$ mayor.
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Adiabático}
+\begin{itemize}
+  \item $T_2 < T_1$.
+  \item $v_{2,a}$ menor.
+\end{itemize}
+\end{columns}
+
+\medskip
+Para el mismo $(P_1,P_2)$:
+
+\begin{align*}
+-\int_1^2 \frac{\mathrm dP}{v}\bigg|_i
+&<
+-\int_1^2 \frac{\mathrm dP}{v}\bigg|_a,\\[4pt]
+\ln\frac{v_{2,i}}{v_1}
+&>
+\ln\frac{v_{2,a}}{v_1}.
+\end{align*}
+
+\pause
+
+\begin{block}{Conclusión}
+\[
+\boxed{
+\left(\frac{w}{A}\right)_{\text{iso}}
+<
+\left(\frac{w}{A}\right)_{\text{adiab}}
+}
+\]
+
+El modelo adiabático predice \emph{mayor} flujo que el isotérmico para la misma $\Delta P$.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Efecto del calor respecto al adiabático}
+Comparamos con el caso adiabático ($Q=0$), mismo par $(P_1,P_2)$:
+
+\begin{itemize}
+  \item \textbf{Calentamiento} ($Q>0$):
+  \begin{itemize}
+    \item $T$ y $v$ mayores que en el adiabático.
+    \item $-\displaystyle\int dP/v\big|_{Q>0}
+           < -\displaystyle\int dP/v\big|_{a}$.
+  \end{itemize}
+  \item \textbf{Enfriamiento} ($Q<0$):
+  \begin{itemize}
+    \item $v$ menor que en el adiabático.
+    \item $-\displaystyle\int dP/v\big|_{Q<0}
+           > -\displaystyle\int dP/v\big|_{a}$.
+  \end{itemize}
+\end{itemize}
+
+\pause
+
+\begin{block}{Orden de magnitud de $w/A$}
+\[
+\boxed{
+\left(\frac{w}{A}\right)_{Q>0}
+<
+\left(\frac{w}{A}\right)_{\text{adiab}}
+<
+\left(\frac{w}{A}\right)_{Q<0}
+}
+\]
+
+Calentar el gas reduce el flujo respecto al adiabático; enfriarlo lo aumenta.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Perfil de temperatura vs.\ isotérmico a $T_1$}
+Tomamos como referencia el modelo isotérmico a $T_1$.
+
+\begin{itemize}
+  \item Si en toda la tubería $T > T_1$:
+  \[
+    -\int \frac{\mathrm dP}{v}\bigg|_{T>T_1}
+    <
+    -\int \frac{\mathrm dP}{v}\bigg|_{T=T_1}.
+  \]
+  \item Si en toda la tubería $T < T_1$:
+  \[
+    -\int \frac{\mathrm dP}{v}\bigg|_{T<T_1}
+    >
+    -\int \frac{\mathrm dP}{v}\bigg|_{T=T_1}.
+  \]
+\end{itemize}
+
+\pause
+
+\begin{block}{Orden de $w/A$ respecto al isotérmico a $T_1$}
+\[
+\boxed{
+\left(\frac{w}{A}\right)_{T>T_1}
+<
+\left(\frac{w}{A}\right)_{\text{iso a }T_1}
+<
+\left(\frac{w}{A}\right)_{T<T_1}
+}
+\]
+
+Si el gas está más caliente que $T_1$ a lo largo de la línea, el flujo real
+es menor que el del modelo isotérmico a $T_1$; si está más frío, es mayor.
+\end{block}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Mapa cualitativo: casos típicos (I)}
+Ubicamos $w_{\text{real}}$ entre $w_i$ (isotérmico) y $w_a$ (adiabático) usando $T_1$, $T_{\text{amb}}$ y el signo de $Q$.
+
+\medskip
+
+\textbf{Caso 1: gas muy frío, ambiente caliente}
+\begin{itemize}
+  \item $T_1 \ll T_{\text{amb}}$, $Q>0$, con $T(x) > T_1$.
+  \item El gas se calienta fuertemente.
+\end{itemize}
+
+\[
+w_{\text{real}} < w_i < w_a.
+\]
+
+\pause
+
+\textbf{Caso 2: gas a temperatura similar a la ambiente}
+\begin{itemize}
+  \item $T_1 \approx T_{\text{amb}}$, $Q>0$ moderado,
+        $T(x)$ apenas por debajo de $T_1$.
+\end{itemize}
+
+\[
+w_i < w_{\text{real}} < w_a.
+\]
+
+El flujo real queda entre ambos modelos; el isotérmico es cota inferior, el adiabático cota superior.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Mapa cualitativo: casos típicos (II)}
+\textbf{Caso 3: gas muy caliente, ambiente frío (enfriamiento intenso)}
+\begin{itemize}
+  \item $T_1 \gg T_{\text{amb}}$, $Q<0$, con $T(x)<T_1$.
+  \item El gas se enfría fuertemente a lo largo de la conducción.
+\end{itemize}
+
+\[
+w_i < w_a < w_{\text{real}}.
+\]
+
+\pause
+
+\textbf{Casos intermedios}
+\begin{itemize}
+  \item Si $T_1 < T_{\text{amb}}$ y hay calentamiento pero no muy fuerte:
+  \[
+  w_{\text{real}} < w_a.
+  \]
+  \item Si $T_1 > T_{\text{amb}}$ y el gas se mantiene más frío que $T_1$:
+  \[
+  w_i < w_{\text{real}}.
+  \]
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Resumen de desigualdades clave}
+\begin{block}{Isotérmico vs.\ adiabático}
+\[
+\left(\frac{w}{A}\right)_{\text{iso}}
+<
+\left(\frac{w}{A}\right)_{\text{adiab}}.
+\]
+\end{block}
+
+\pause
+
+\begin{block}{Con calor vs.\ adiabático}
+\[
+\left(\frac{w}{A}\right)_{Q>0}
+<
+\left(\frac{w}{A}\right)_{\text{adiab}}
+<
+\left(\frac{w}{A}\right)_{Q<0}.
+\]
+\end{block}
+
+\pause
+
+\begin{block}{Perfil térmico vs.\ isotérmico a $T_1$}
+\[
+\left(\frac{w}{A}\right)_{T>T_1}
+<
+\left(\frac{w}{A}\right)_{\text{iso a }T_1}
+<
+\left(\frac{w}{A}\right)_{T<T_1}.
+\]
+\end{block}
+
+Estas relaciones sirven como ``faro'' para ubicar $w_{\text{real}}$ entre los modelos ideales.
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Criterios prácticos de elección de modelo}
+\textbf{1.\ Modelo adiabático}
+\begin{itemize}
+  \item Conducción bien aislada o tiempo de residencia corto.
+  \item En general, lo uso como \textbf{cota superior} de flujo para una misma $\Delta P$.
+  \item Excepción: enfriamientos intensos ($Q<0$ grande) que pueden llevar a $w_{\text{real}} > w_a$.
+\end{itemize}
+
+\pause
+
+\textbf{2.\ Modelo isotérmico (a $T_1$ o $T_{\text{amb}}$)}
+\begin{itemize}
+  \item Tubería bien acoplada térmicamente al ambiente,
+        $T_1 \simeq T_{\text{amb}}$.
+  \item En general, \textbf{cota inferior} de flujo para la misma $\Delta P$.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}{Ubicación cualitativa del caso real}
+\textbf{Reglas de pulgar}:
+
+\begin{itemize}
+  \item Si $Q>0$ (calentamiento global):
+  \[
+  w_{\text{real}} \le w_{\text{adiab}},
+  \quad
+  \text{frecuentemente } w_{\text{real}} \lesssim w_{\text{iso}}.
+  \]
+  \item Si $Q<0$ (enfriamiento global):
+  \[
+  w_{\text{real}} \ge w_{\text{adiab}},
+  \quad
+  \text{típicamente } w_{\text{real}} \gtrsim w_{\text{iso}}.
+  \]
+  \item La relación $T_1$--$T_{\text{amb}}$ indica si $w_{\text{real}}$ queda:
+  \begin{itemize}
+    \item por debajo de ambos modelos,
+    \item entre ambos,
+    \item o por encima de ambos,
+  \end{itemize}
+  siguiendo los casos 1--3 del mapa cualitativo.
+\end{itemize}
+
+\bigskip
+En resumen, uso isotérmico y adiabático como modelos ideales ``faro'' y ubico
+el caso real entre ambos para justificar la elección del modelo en cada problema.
+\end{frame}
+
+%------------------------------------------------
+
+\end{document}

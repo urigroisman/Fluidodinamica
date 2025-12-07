@@ -1,0 +1,291 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\begin{document}
+
+\title{Criterios para la elección del modelo ideal en flujo compresible en conductos}
+\author{}
+\date{}
+\maketitle
+
+\section*{1.\ Punto de partida: expresión general para \texorpdfstring{$w/A$}{w/A}}
+
+Del balance de energía mecánica en una conducción horizontal de sección constante, se obtiene para flujo estacionario compresible:
+
+\begin{equation}
+\left(\frac{w}{A}\right)^2 \ln\!\frac{v_2}{v_1}
+\;+\;\int_1^2 \frac{\mathrm dP}{v}
+\;+\;2 f \frac{L}{D}\left(\frac{w}{A}\right)^2 = 0
+\end{equation}
+
+de donde
+
+\begin{equation}
+\frac{w}{A}
+=
+\left[
+-\frac{\displaystyle \int_1^2 \frac{\mathrm dP}{v}}
+{\displaystyle \ln\!\frac{v_2}{v_1} + 2 f\frac{L}{D}}
+\right]^{1/2}.
+\end{equation}
+
+Comparar modelos significa comparar el numerador
+\(-\displaystyle\int_1^2 \frac{\mathrm dP}{v}\)
+y el logaritmo \(\ln(v_2/v_1)\) entre distintos supuestos
+(isotérmico, adiabático, con calor, etc.) manteniendo el mismo
+\(\Delta P\) y el mismo \(2fL/D\).
+
+\bigskip
+\hrule
+\bigskip
+
+\section*{2.\ Isotérmico vs.\ adiabático (mismo \(P_1,P_2\))}
+
+Suponiendo gas ideal \(Pv/T=\text{cte}\):
+
+\begin{itemize}
+  \item Isotérmico: \(T_2 = T_1\).
+  \item Adiabático con caída de presión: \(T_2 < T_1\).
+\end{itemize}
+
+Para el mismo par \((P_1,P_2)\):
+
+\begin{itemize}
+  \item Se tiene \(T_{2,i} > T_{2,a}\) y por tanto \(v_{2,i} > v_{2,a}\).
+  \item Entonces:
+  \[
+  -\int_1^2 \frac{\mathrm dP}{v}\bigg|_i
+  <
+  -\int_1^2 \frac{\mathrm dP}{v}\bigg|_a,
+  \qquad
+  \ln\frac{v_{2,i}}{v_1}
+  >
+  \ln\frac{v_{2,a}}{v_1}.
+  \]
+\end{itemize}
+
+Con el mismo \(2fL/D\) resulta:
+
+\begin{equation}
+\boxed{
+\left(\frac{w}{A}\right)_{\text{isotérmico}}
+<
+\left(\frac{w}{A}\right)_{\text{adiabático}}
+}
+\end{equation}
+
+Es decir, el modelo adiabático da un flujo másico mayor que el isotérmico para la misma caída de presión.
+
+\bigskip
+\hrule
+\bigskip
+
+\section*{3.\ Efecto del calor respecto al caso adiabático}
+
+Comparando casos con calor distribuido (\(Q\neq 0\)) respecto al adiabático
+(\(Q=0\)), siempre con gas ideal y mismo \((P_1,P_2)\):
+
+\begin{itemize}
+  \item Si \(Q>0\) (se calienta el gas a lo largo de la tubería):
+  \begin{itemize}
+    \item El gas tiene \(T\) más alta y \(v\) más grande que en el adiabático.
+    \item \(\Rightarrow -\displaystyle\int \frac{\mathrm dP}{v}\big|_{Q>0}
+              < -\displaystyle\int \frac{\mathrm dP}{v}\big|_{a}.\)
+  \end{itemize}
+  \item Si \(Q<0\) (se enfría el gas):
+  \begin{itemize}
+    \item \(v\) es menor que en el adiabático.
+    \item \(\Rightarrow -\displaystyle\int \frac{\mathrm dP}{v}\big|_{Q<0}
+              > -\displaystyle\int \frac{\mathrm dP}{v}\big|_{a}.\)
+  \end{itemize}
+\end{itemize}
+
+El logaritmo \(\ln(v_2/v_1)\) y el término de fricción no cambian mucho entre estos casos, de modo que:
+
+\begin{equation}
+\boxed{
+\left(\frac{w}{A}\right)_{Q>0}
+<
+\left(\frac{w}{A}\right)_{\text{adiabático}}
+<
+\left(\frac{w}{A}\right)_{Q<0}
+}
+\end{equation}
+
+Calentar el gas reduce el flujo respecto al adiabático; enfriarlo lo aumenta.
+
+\bigskip
+\hrule
+\bigskip
+
+\section*{4.\ Efecto del perfil de temperatura respecto al ``isotérmico a \(T_1\)''}
+
+Ahora se toma como referencia un modelo isotérmico a \(T_1\), y se compara con
+casos reales donde la temperatura a lo largo de la conducción es mayor o menor
+que \(T_1\). De nuevo, gas ideal y mismo \((P_1,P_2)\):
+
+\begin{itemize}
+  \item Si en toda la tubería \(T > T_1 \Rightarrow v\) es mayor que en el isotérmico:
+  \[
+    -\int \frac{\mathrm dP}{v}\bigg|_{T>T_1}
+    <
+    -\int \frac{\mathrm dP}{v}\bigg|_{T=T_1}.
+  \]
+  \item Si en toda la tubería \(T < T_1 \Rightarrow v\) es menor:
+  \[
+    -\int \frac{\mathrm dP}{v}\bigg|_{T<T_1}
+    >
+    -\int \frac{\mathrm dP}{v}\bigg|_{T=T_1}.
+  \]
+\end{itemize}
+
+Resultado:
+
+\begin{equation}
+\boxed{
+\left(\frac{w}{A}\right)_{T>T_1}
+<
+\left(\frac{w}{A}\right)_{\text{isotérmico a }T_1}
+<
+\left(\frac{w}{A}\right)_{T<T_1}
+}
+\end{equation}
+
+Si el gas está más caliente que \(T_1\) a lo largo de la línea, el flujo real
+será menor que el del modelo isotérmico a \(T_1\); si está más frío, será mayor.
+
+\bigskip
+\hrule
+\bigskip
+
+\section*{5.\ Comparación de casos reales con modelos (mapa cualitativo)}
+
+Las últimas ideas combinan todo lo anterior y ubican el flujo real
+\(w_\text{real}\) entre los flujos de los modelos isotérmico (\(w_i\)) y
+adiabático (\(w_a\)), según:
+
+\begin{itemize}
+  \item La relación entre \(T_1\) (temperatura de entrada) y la temperatura ambiente \(T_\text{amb}\).
+  \item El signo de \(Q\) (calor hacia el gas o desde el gas).
+  \item Si el perfil \(T(x)\) es globalmente mayor o menor que \(T_1\).
+\end{itemize}
+
+Los casos típicos:
+
+\begin{enumerate}
+  \item \textbf{Gas muy frío al inicio, ambiente caliente.}\\
+        \(T_1 \ll T_\text{amb}\) y \(Q>0\), con \(T(x)>T_1\) a lo largo:
+        \[
+        w_\text{real} < w_i < w_a.
+        \]
+        El gas se calienta fuertemente: el flujo real queda por debajo del
+        isotérmico, que a su vez está por debajo del adiabático.
+
+  \item \textbf{Gas a temperatura similar a la ambiente, leve calentamiento/enfriamiento.}\\
+        \(T_1 \approx T_\text{amb}\), \(Q>0\) moderado, con \(T(x)\) apenas por debajo de \(T_1\):
+        \[
+        w_i < w_\text{real} < w_a.
+        \]
+        El flujo real queda entre ambos modelos, con el isotérmico como cota
+        inferior y el adiabático como cota superior.
+
+  \item \textbf{Gas muy caliente, ambiente mucho más frío, enfriamiento intenso.}\\
+        \(T_1 \gg T_\text{amb}\), \(Q<0\), con \(T(x)<T_1\) a lo largo:
+        \[
+        w_i < w_a < w_\text{real}.
+        \]
+        El gas se enfría mucho: el flujo real supera incluso al adiabático.
+
+  \item \textbf{Casos intermedios.}\\
+        Si \(T_1<T_\text{amb}\) y hay calentamiento pero no está claro el
+        perfil respecto a \(T_1\): suele cumplirse \(w_\text{real} < w_a\).\\
+        Si \(T_1>T_\text{amb}\) y el gas se mantiene más frío que \(T_1\):
+        típicamente \(w_i < w_\text{real}\).
+\end{enumerate}
+
+De forma compacta, podemos resumir las desigualdades de referencia como:
+
+\begin{align}
+\left(\frac{w}{A}\right)_{\text{iso}}
+&<
+\left(\frac{w}{A}\right)_{\text{adiab}},
+\\[4pt]
+\left(\frac{w}{A}\right)_{Q>0}
+&<
+\left(\frac{w}{A}\right)_{\text{adiab}}
+<
+\left(\frac{w}{A}\right)_{Q<0},
+\\[4pt]
+\left(\frac{w}{A}\right)_{T>T_1}
+&<
+\left(\frac{w}{A}\right)_{\text{iso@}T_1}
+<
+\left(\frac{w}{A}\right)_{T<T_1}.
+\end{align}
+
+La posición de \(w_\text{real}\) respecto de \(w_i\) y \(w_a\) se deduce
+combinando estas desigualdades con la información sobre \(T_1\), \(T_\text{amb}\)
+y el signo de \(Q\).
+
+\bigskip
+\hrule
+\bigskip
+
+\section*{6.\ Criterio que voy a usar a partir de ahora}
+
+Para todos los problemas de flujo compresible en conductos de sección
+constante que resolvamos de aquí en más, adoptaré sistemáticamente estos
+criterios:
+
+\subsection*{6.1.\ Modelo adiabático}
+
+\begin{itemize}
+  \item Lo usaré cuando la conducción esté relativamente bien aislada o el
+        tiempo de residencia sea corto.
+  \item Lo utilizaré como \textbf{cota superior} de flujo másico (para un mismo
+        \(\Delta P\)), salvo en casos de fuerte enfriamiento donde el real
+        pueda superarlo (caso 3 de la sección anterior).
+\end{itemize}
+
+\subsection*{6.2.\ Modelo isotérmico (a \(T_1\) o a \(T_\text{amb}\))}
+
+\begin{itemize}
+  \item Apropiado cuando el tubo está bien acoplado térmicamente al ambiente y
+        \(T_1 \simeq T_\text{amb}\).
+  \item En general lo consideraré como \textbf{cota inferior} de flujo másico
+        para un mismo \(\Delta P\).
+\end{itemize}
+
+\subsection*{6.3.\ Ubicación cualitativa del caso real}
+
+\begin{itemize}
+  \item Si \(Q>0\) (el gas se calienta globalmente), tenderé a ubicar
+        \[
+        w_\text{real} \le w_\text{adiab},
+        \qquad
+        \text{y frecuentemente } w_\text{real} \lesssim w_\text{iso}.
+        \]
+  \item Si \(Q<0\) (el gas se enfría),
+        \[
+        w_\text{real} \ge w_\text{adiab},
+        \qquad
+        \text{y típicamente } w_\text{real} \gtrsim w_\text{iso}.
+        \]
+  \item La relación de \(T_1\) con \(T_\text{amb}\) me dirá si
+        \(w_\text{real}\) está por debajo de ambos modelos, entre ambos, o por
+        encima de ambos, siguiendo los diagramas cualitativos (casos 1--3).
+\end{itemize}
+
+En resumen, usaré los modelos adiabático e isotérmico como modelos ideales
+``faro'', y ubicaré el flujo real entre ellos usando estas desigualdades y
+consideraciones térmicas cada vez que tengamos que elegir el modelo ideal o
+justificar cuál usamos para acotar la realidad.
+
+\end{document}

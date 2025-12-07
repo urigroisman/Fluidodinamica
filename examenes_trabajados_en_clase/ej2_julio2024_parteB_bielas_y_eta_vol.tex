@@ -1,0 +1,321 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\begin{document}
+
+\title{Ejercicio 2 -- Examen Julio 2024\\Parte (b): efecto del cambio de bielas en un compresor de doble acción}
+\author{}
+\date{}
+\maketitle
+
+\section*{Enunciado (parte b)}
+
+Por una falla en el sistema de lubricación se rompe una biela. No es posible
+conseguir el repuesto original, pero el fabricante ofrece una biela que sólo
+difiere de la original en su longitud, ya que es \SI{5}{mm} más corta. Sugiere
+cambiar las dos bielas para que los pistones trabajen del mismo modo. Indique
+si, para una velocidad fija del compresor, el cambio de las bielas podría
+afectar el flujo másico de aire o la potencia consumida por el compresor.
+Justifique su respuesta cualitativamente.
+
+\section*{1. Modelo geométrico simplificado del cilindro doble acción}
+
+Consideramos un cilindro de doble acción idealizado con las siguientes
+características:
+
+\begin{itemize}
+  \item El compresor tiene dos cilindros, pero el análisis se hace sobre \emph{un}
+        cilindro de doble acción; el comportamiento global se obtiene
+        multiplicando por el número de cilindros.
+  \item Carrera geométrica (del centro de la cabeza a la culata) constante:
+  \[
+     S = \SI{120}{mm}.
+  \]
+  \item Área del pistón $A$ constante en ambas caras (despreciando el volumen
+        ocupado por la varilla).
+  \item Por revolución, cada cara del pistón barre el mismo volumen
+  \[
+     V_s = A\,S.
+  \]
+\end{itemize}
+
+El volumen muerto (``clearance'') se define como
+\[
+V_3 = V_c,
+\]
+y el volumen en el comienzo de la admisión es $V_1$. El volumen barrido por
+cada lado en una revolución es
+\[
+V_s = V_1 - V_3.
+\]
+
+La fracción de volumen muerto (clearance fraccional) es
+\[
+C = \frac{V_c}{V_s} = \frac{V_3}{V_1 - V_3}.
+\]
+
+\subsection*{1.1. Efecto de acortar las bielas en un doble efecto}
+
+El fabricante propone bielas \SI{5}{mm} más cortas y se sustituyen las \emph{dos}
+bielas, de modo que ambas caras del pistón se vean afectadas de forma
+simétrica.
+
+Idealizamos el efecto geométrico de la siguiente manera:
+
+\begin{itemize}
+  \item La carrera $S = 2R$ viene determinada por el radio de la manivela $R$ y
+        \emph{no cambia} al modificar la longitud de la biela $\ell$. Por lo tanto,
+        el volumen barrido por cada cara sigue siendo
+        \[
+          V_s' = V_s'' = V_s = A S.
+        \]
+  \item La modificación de la longitud de la biela sí altera la posición del
+        pistón en el punto muerto superior (PMS) en cada extremo, cambiando los
+        volúmenes muertos de ambas cámaras. Denotamos:
+        \[
+          V_3' = V_3 + \Delta V,\qquad
+          V_3'' = V_3 - \Delta V.
+        \]
+        Es decir, el clearance de una cara aumenta y el de la otra disminuye,
+        pero el \emph{promedio} se mantiene:
+        \[
+          \frac{V_3' + V_3''}{2} = V_3.
+        \]
+\end{itemize}
+
+Los clearances fraccionales de cada cara son entonces:
+\[
+C' = \frac{V_3'}{V_s},\qquad
+C'' = \frac{V_3''}{V_s},
+\]
+y por construcción
+\[
+\frac{C' + C''}{2}
+= \frac{1}{2}\left(\frac{V_3'}{V_s} + \frac{V_3''}{V_s}\right)
+= \frac{V_3'+V_3''}{2V_s}
+= \frac{V_3}{V_s}
+= C.
+\]
+
+\section*{2. Eficiencia volumétrica de cada cara y eficiencia global}
+
+Para un compresor reciprocante (simple efecto) con proceso politrópico entre
+$P_1$ (aspiración) y $P_2$ (descarga), volumen muerto fraccional $C$ y
+exponente $k$, la eficiencia volumétrica ideal se escribe como
+\[
+\eta_v = 1 + C - C\left(\frac{P_2}{P_1}\right)^{1/k}.
+\]
+
+Para el cilindro de doble acción, cada cara tiene su propio clearance y, por lo
+tanto, su propia eficiencia volumétrica:
+
+\begin{align*}
+\eta_v'  &= 1 + C'  - C' \left(\frac{P_2}{P_1}\right)^{1/k},\\
+\eta_v'' &= 1 + C'' - C''\left(\frac{P_2}{P_1}\right)^{1/k}.
+\end{align*}
+
+Definimos
+\[
+\beta := \left(\frac{P_2}{P_1}\right)^{1/k}.
+\]
+
+\subsection*{2.1. Definición general de eficiencia volumétrica global}
+
+La eficiencia volumétrica global se define como
+\[
+\eta_{v,\text{tot}} =
+\frac{\dot m_{\text{asp real}}}{\dot m_{\text{asp ideal}}}.
+\]
+
+En una revolución:
+
+\begin{itemize}
+  \item La cara 1 aspira un volumen efectivo
+        \[
+        V_{\text{asp}}' = \eta_v' V_s,
+        \]
+        y por tanto una masa
+        \[
+        m' = \rho_1\,\eta_v' V_s,
+        \]
+        donde $\rho_1$ es la densidad a la admisión.
+  \item La cara 2 aspira
+        \[
+        V_{\text{asp}}'' = \eta_v'' V_s,
+        \qquad
+        m'' = \rho_1\,\eta_v'' V_s.
+        \]
+\end{itemize}
+
+La masa total aspirada por revolución es
+\[
+m_{\text{tot}} = m' + m'' =
+\rho_1\left(\eta_v' V_s + \eta_v'' V_s\right)
+= \rho_1 V_s(\eta_v' + \eta_v'').
+\]
+
+El volumen ``ideal'' de referencia para la eficiencia global es el volumen
+barrido total por revolución, es decir,
+\[
+V_{s,\text{tot}} = V_s' + V_s'' = 2 V_s.
+\]
+
+Luego,
+\[
+\eta_{v,\text{tot}} =
+\frac{m_{\text{tot}}}{\rho_1 V_{s,\text{tot}}}
+= \frac{\rho_1 V_s(\eta_v' + \eta_v'')}{\rho_1 \cdot 2 V_s}
+= \frac{\eta_v' + \eta_v''}{2}.
+\]
+
+Es decir, para un doble efecto \emph{simétrico} (ambas caras con el mismo
+volumen barrido),
+\[
+\boxed{
+\eta_{v,\text{tot}} =
+\frac{\eta_v' + \eta_v''}{2}.
+}
+\]
+
+Este resultado no es una hipótesis adicional: se obtiene directamente de la
+definición de eficiencia volumétrica global y del hecho de que cada cara tiene
+el mismo $V_s$.
+
+En un doble efecto no simétrico ($V_s' \neq V_s''$) la expresión correcta sería
+el promedio ponderado
+\[
+\eta_{v,\text{tot}} =
+\frac{\eta_v' V_s' + \eta_v'' V_s''}{V_s' + V_s''}.
+\]
+
+\subsection*{2.2. Cálculo de $\eta_{v,\text{tot}}$ en términos de $C'$ y $C''$}
+
+Sustituyendo las expresiones de $\eta_v'$ y $\eta_v''$:
+
+\begin{align*}
+\eta_{v,\text{tot}}
+&= \frac{1}{2}\left[\eta_v' + \eta_v''\right] \\
+&= \frac{1}{2}\left[
+(1 + C' - C'\beta) + (1 + C'' - C''\beta)
+\right]\\
+&= \frac{1}{2}\big[2 + (C' + C'') - (C' + C'')\beta\big]\\[4pt]
+&= 1 + \frac{C' + C''}{2} - \frac{C' + C''}{2}\,\beta.
+\end{align*}
+
+Definiendo el clearance medio
+\[
+\bar C := \frac{C' + C''}{2},
+\]
+se tiene
+\[
+\eta_{v,\text{tot}} = 1 + \bar C - \bar C\,\beta.
+\]
+
+Pero, como vimos en la Sección 1.1, para el cambio de bielas simétrico:
+\[
+\bar C = \frac{C' + C''}{2} = C.
+\]
+
+Por lo tanto,
+\[
+\boxed{
+\eta_{v,\text{tot}} = 1 + C - C\left(\frac{P_2}{P_1}\right)^{1/k},
+}
+\]
+es decir, la eficiencia volumétrica global del cilindro doble acción queda
+\textbf{exactamente igual} que antes de cambiar las bielas.
+
+\section*{3. Consecuencias sobre el flujo másico}
+
+El flujo másico del compresor (considerando ambos lados del pistón) a una
+velocidad de rotación $N$ (rpm) es
+\[
+\dot m = \rho_1\,\eta_{v,\text{tot}}\, V_{s,\text{tot}} \frac{N}{60}
+       = \rho_1\,\eta_{v,\text{tot}}\, (2 V_s)\frac{N}{60}.
+\]
+
+En el problema de la parte (a) se determinó $\eta_v$ y se tomó
+\(\eta_{v,\text{tot}} = \eta_v\) (con $C$ original). Con el cambio de bielas
+hemos demostrado que:
+
+\begin{itemize}
+  \item El volumen barrido total $V_{s,\text{tot}} = 2V_s$ no cambia, puesto que
+        la carrera y el área del pistón son las mismas.
+  \item La eficiencia volumétrica global $\eta_{v,\text{tot}}$ permanece igual a
+        la original.
+  \item La densidad a la aspiración $\rho_1$ y la velocidad $N$ son las mismas.
+\end{itemize}
+
+Por consiguiente, el flujo másico total a velocidad fija es invariante:
+\[
+\boxed{\dot m_{\text{nuevo}} = \dot m_{\text{original}}.}
+\]
+
+\section*{4. Consecuencias sobre el trabajo y la potencia}
+
+El trabajo específico de compresión (por unidad de masa) para un proceso
+politrópico entre $P_1$ y $P_2$ es
+\[
+w = \frac{k}{k-1}R T_1
+\left[
+\left(\frac{P_2}{P_1}\right)^{\frac{k-1}{k}} - 1
+\right],
+\]
+que depende sólo de $P_2/P_1$, $k$ y $T_1$, todos ellos datos que no cambian
+con la modificación de las bielas.
+
+\begin{itemize}
+  \item El trabajo por kilogramo comprimido $w$ es el mismo.
+  \item El flujo másico total $\dot m$ no cambia (Sección 3).
+\end{itemize}
+
+La potencia indicada del compresor se obtiene como
+\[
+P_i = \dot m\,w.
+\]
+
+Como ambos factores se mantienen, se concluye que:
+
+\[
+\boxed{P_{i,\text{nuevo}} = P_{i,\text{original}}.}
+\]
+
+Corregida por las mismas eficiencias mecánica y eléctrica, la potencia al eje
+y la potencia eléctrica consumida por el compresor también se mantienen
+prácticamente iguales.
+
+\section*{5. Conclusión cualitativa para el examen}
+
+Bajo el modelo ideal adoptado:
+
+\begin{itemize}
+  \item El cambio simétrico de las dos bielas por otras ligeramente más cortas
+        modifica en forma opuesta los volúmenes muertos de las dos cámaras, de
+        manera que el \emph{clearance medio} se mantiene y, con él, la
+        eficiencia volumétrica global del cilindro doble acción.
+  \item El volumen barrido total por revolución no cambia.
+  \item El trabajo específico de compresión no cambia, ya que depende sólo del
+        radio de compresión y del exponente politrópico.
+\end{itemize}
+
+Por lo tanto, para una velocidad fija del compresor:
+
+\[
+\boxed{
+\text{El cambio de bielas no afecta de manera apreciable ni el flujo másico de aire ni la potencia consumida.}
+}
+\]
+
+En una discusión más fina podrían aparecer pequeñas diferencias debidas a
+asimetrías reales (volumen de la varilla, pérdidas de carga en válvulas,
+desajustes geométricos), pero dentro del modelo ideal del examen, el efecto del
+cambio de bielas es despreciable sobre la capacidad de caudal y la potencia.
+
+\end{document}

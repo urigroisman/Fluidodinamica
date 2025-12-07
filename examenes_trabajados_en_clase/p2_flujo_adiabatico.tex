@@ -1,0 +1,372 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\begin{document}
+
+\title{Problema p.2 -- Flujo de nitrógeno entre dos tanques\\
+Modelo adiabático subsónico desde reservorio}
+\author{Resolución detallada}
+\date{}
+\maketitle
+
+\section*{1. Enunciado (resumen)}
+
+Dos tanques idénticos A y B (10 m$^3$ cada uno) contienen nitrógeno a la misma temperatura ambiente (\SI{15}{\celsius}).
+Se conectan mediante una conducción de acero comercial Sch~40 de 1/2'' de diámetro nominal y longitud real \SI{15}{\meter}, que incluye:
+\begin{itemize}
+  \item 5 codos estándar de \ang{90},
+  \item 2 válvulas esféricas,
+  \item 1 entrada con resalte hacia el interior.
+\end{itemize}
+
+Inicialmente:
+\[
+P_A = \SI{8.0}{bar(g)} \Rightarrow P_{0} = \SI{9.0}{bar(abs)},\qquad
+P_B = \SI{4.0}{bar(g)} \Rightarrow P_{2} = \SI{5.0}{bar(abs)}.
+\]
+
+Se abren las válvulas y se permite el flujo hasta que las presiones se igualan.
+Se pide: \emph{máximo flujo másico} que puede establecerse entre los tanques.
+(Respuesta de referencia: $\dot m_{\max} \approx \SI{0.088}{kg/s}$).
+
+\section*{2. Datos, incógnita y propiedades}
+
+Gas: nitrógeno, modelado como gas ideal:
+\[
+M = \SI{28}{g/mol}, \qquad
+R = \frac{R_u}{M} \approx \frac{8.314}{0.028} \simeq \SI{2.976\times 10^{2}}{J/(kg\,K)},
+\]
+\[
+\gamma = \frac{c_p}{c_v} \approx 1.4.
+\]
+
+Temperatura inicial (y ambiente):
+\[
+T_0 = T_A = T_B = \SI{15}{\celsius} \approx \SI{288}{K}.
+\]
+
+Presiones absolutas iniciales:
+\[
+P_0 = \SI{9}{bar} = \SI{9\times10^5}{Pa}, \qquad
+P_2 = \SI{5}{bar} = \SI{5\times10^5}{Pa}.
+\]
+
+Relación de presiones:
+\[
+F = \frac{P_2}{P_0} = \frac{5}{9} \simeq 0.5556.
+\]
+
+Tubería:
+\begin{itemize}
+  \item Diámetro interno 1/2'' Sch~40:
+  \[
+  D \simeq \SI{0.0158}{m}.
+  \]
+  \item Longitud real $L = \SI{15}{m}$.
+  \item Longitud equivalente total (15 m + accesorios, usando Crane para 5 codos, 2 válvulas esféricas y entrada con resalte):
+  \[
+  L'_e \simeq \SI{18.5}{m}.
+  \]
+  \item Tubería de acero comercial, régimen completamente turbulento: factor de Darcy tomado de Crane para 1/2'':
+  \[
+  f_T = 0.026.
+  \]
+\end{itemize}
+
+Volumen específico en el reservorio A:
+\[
+v_0 = \frac{R T_0}{P_0}
+      \approx \frac{2.976\times10^{2} \cdot 288}{9\times10^5}
+      \simeq 9.50\times10^{-2}\ \text{m}^3/\text{kg}.
+\]
+
+Incógnita principal: máximo flujo másico $\dot m_{\max}$.
+
+\section*{3. Hipótesis físicas y elección del modelo ideal}
+
+\begin{enumerate}
+\item \textbf{Flujo estacionario cuasi-permanente.}
+El máximo flujo ocurre al comienzo (cuando $P_A = \SI{9}{bar}$, $P_B = \SI{5}{bar}$).
+Aproximamos ese instante por un flujo estacionario entre dos reservorios a presiones fijas $P_0, P_2$.
+
+\item \textbf{Gas ideal, propiedades constantes} $(R,\gamma)$.
+
+\item \textbf{Conducción horizontal de sección constante}, sin trabajo de eje:
+modelo de ducto 1D con fricción.
+
+\item \textbf{Modelo térmico y comparación con casos reales.}
+Los tanques están inicialmente a \SI{15}{\celsius}, igual temperatura que el ambiente.
+La conducción no está altamente aislada, pero tampoco tiene un intercambio intenso de calor.
+Del análisis comparativo de modelos (documento S4):
+
+\begin{itemize}
+  \item Para $T_1 \approx T_{\text{amb}}$ y calor moderado, el flujo real se ubica entre los modelos
+  isotérmico y adiabático:
+  \[
+    \left(\frac{w}{A}\right)_{\text{iso}}
+    < \left(\frac{w}{A}\right)_{\text{real}}
+    < \left(\frac{w}{A}\right)_{\text{adiab}}.
+  \]
+  \item Como se pide \emph{máximo flujo másico}, usamos el modelo \textbf{adiabático} como
+  \textbf{cota superior razonable}.
+\end{itemize}
+
+Trabajaremos, por tanto, con el modelo \emph{adiabático con fricción, subsónico, desde reservorio}.
+
+\item \textbf{Régimen subsónico.}
+Verificaremos a posteriori que el número de Mach es suficientemente bajo;
+resultará $M_2 \approx 0.22$, consistente con la hipótesis.
+\end{enumerate}
+
+\section*{4. Variables adimensionales y definición de $X$}
+
+Seguimos la reducción de las notas para ``flujo adiabático desde un reservorio, subsónico''.
+
+Definimos las variables adimensionales:
+\[
+r = \frac{v_0}{v_{1'}}, \qquad
+z = \frac{v_0}{v_2},
+\]
+donde $1'$ es la sección de entrada efectiva del ducto y $2$ la de salida hacia el segundo tanque.
+
+La relación de presiones es
+\[
+F = \frac{P_2}{P_0} = \frac{5}{9}.
+\]
+
+Definimos el parámetro de flujo
+\[
+X = \left(\frac{\dot m}{A}\right)^2 \frac{v_0}{P_0}, \qquad
+A = \frac{\pi D^2}{4}.
+\]
+
+Introducimos además
+\[
+C = \frac{2\gamma}{\gamma-1}.
+\]
+Para $\gamma = 1.4$:
+\[
+C = \frac{2\cdot 1.4}{0.4} = 7.
+\]
+
+\section*{5. Sistema reducido de ecuaciones adiabáticas}
+
+\subsection*{5.1. Ecuaciones reducidas (caso desde reservorio)}
+
+De las transparencias para ``entrada desde reservorio estanco -- flujo adiabático'' el sistema es:
+
+\begin{enumerate}
+\item Relación reserva--entrada--salida:
+\[
+E_1(r,z) = r^2 - r^{\gamma+1} - z^2 + F z = 0.
+\]
+
+\item Definición de $X$ (por eliminación):
+\[
+X = C\,(z^2 - F z).
+\]
+
+\item Ecuación de Fanno reducida entre $1'$ y $2$:
+\[
+\frac{r^2 - z^2}{X} - \frac{\gamma+1}{\gamma} \ln\!\left(\frac{r}{z}\right)
+   = f\, \frac{L'_e}{D}.
+\]
+\end{enumerate}
+
+Aquí $f$ es el factor de fricción de \emph{Fanning} en la deducción original.
+Disponemos del Darcy $f_T$ de Crane.
+Con $f_{\text{Darcy}} = 4 f_{\text{Fanning}}$, las fórmulas reducidas se han reescrito de modo que el término de fricción a la derecha puede expresarse directamente como
+\[
+\text{RHS} = f_T \frac{L'_e}{D}.
+\]
+
+Sustituyendo $X = C(z^2 - F z)$ en la ecuación de Fanno, el sistema se escribe explícitamente como
+\begin{align*}
+E_1(r,z) &=
+r^2 - r^{\gamma+1} - z^2 + F z = 0, \\
+E_2(r,z) &=
+\frac{r^2 - z^2}{C\,(z^2 - F z)}
+- \frac{\gamma+1}{\gamma} \ln\!\left(\frac{r}{z}\right)
+- f_T\frac{L'_e}{D} = 0.
+\end{align*}
+
+Con los datos numéricos:
+\[
+F=\frac{5}{9},\quad
+\gamma=1.4,\quad
+C=7,\quad
+f_T=0.026,\quad
+L'_e=\SI{18.5}{m},\quad
+D=\SI{0.0158}{m},
+\]
+\[
+\text{RHS} = f_T \frac{L'_e}{D}
+= 0.026\;\frac{18.5}{0.0158}
+\simeq 30.44.
+\]
+
+\section*{6. Resolución numérica del sistema $(r,z)$}
+
+Las condiciones físicas para la solución subsónica son:
+\begin{itemize}
+  \item $0<z<r<1$,
+  \item $z^2 - F z > 0$ (para que $X>0$).
+\end{itemize}
+
+Se usa un método de Newton--Raphson bidimensional, partiendo de semillas compatibles con el criterio de las notas:
+\[
+r^{(0)}\approx 0.97, \qquad
+z^{(0)}\approx F+0.01\simeq 0.565.
+\]
+
+El algoritmo itera hasta que $|E_1|,|E_2| < 10^{-10}$.
+La solución convergente que satisface las restricciones físicas es
+\[
+\boxed{
+r \simeq 0.9923,\qquad
+z \simeq 0.5610.
+}
+\]
+
+Con estos valores:
+\[
+X = C\,(z^2 - F z)
+   = 7\,[z^2 - F z]
+   \simeq 0.02132.
+\]
+
+\section*{7. Cálculo del flujo másico $\dot m$}
+
+Por definición,
+\[
+X = \left(\frac{\dot m}{A}\right)^2 \frac{v_0}{P_0}
+\quad\Rightarrow\quad
+\frac{\dot m}{A} = \sqrt{\frac{X P_0}{v_0}}.
+\]
+
+\subsection*{7.1. Volumen específico en A}
+
+\[
+v_0 = \frac{R T_0}{P_0}
+    \simeq \frac{2.976\times10^{2} \cdot 288}{9\times10^5}
+    \simeq 9.50\times10^{-2}\ \text{m}^3/\text{kg}.
+\]
+
+\subsection*{7.2. Área interna del tubo}
+
+\[
+A = \frac{\pi D^2}{4}
+  = \frac{\pi (0.0158)^2}{4}
+  \simeq 1.96\times 10^{-4}\ \text{m}^2.
+\]
+
+\subsection*{7.3. Flujo másico por unidad de área}
+
+\[
+\left(\frac{\dot m}{A}\right)
+= \sqrt{\frac{X P_0}{v_0}}
+= \sqrt{\frac{0.02132 \cdot 9\times10^5}{9.50\times10^{-2}}}
+\simeq 4.49\times10^{2}\ \frac{\text{kg}}{\text{m}^2\text{s}}.
+\]
+
+\subsection*{7.4. Flujo másico total}
+
+\[
+\dot m = A\;\frac{\dot m}{A}
+\simeq (1.96\times10^{-4})
+       (4.49\times10^{2})
+\simeq 8.8\times10^{-2}\ \text{kg/s}.
+\]
+
+Es decir,
+\[
+\boxed{\dot m_{\max} \approx \SI{0.088}{kg/s}}
+\]
+en perfecto acuerdo con la respuesta de la guía.
+
+\section*{8. Verificación física}
+
+\subsection*{8.1. Chequeo de unidades}
+
+En
+\[
+X = \left(\frac{\dot m}{A}\right)^2 \frac{v_0}{P_0}
+\]
+tenemos:
+\begin{itemize}
+  \item $[\dot m/A] = \text{kg\,m}^{-2}\text{s}^{-1}$,
+  \item $[v_0] = \text{m}^3\text{kg}^{-1}$,
+  \item $[P_0] = \text{N\,m}^{-2} = \text{kg\,m}^{-1}\text{s}^{-2}$.
+\end{itemize}
+Entonces:
+\[
+\left[\left(\frac{\dot m}{A}\right)^2 \frac{v_0}{P_0}\right]
+= \frac{\text{kg}^2\text{m}^{-4}\text{s}^{-2}\cdot \text{m}^3\text{kg}^{-1}}
+        {\text{kg\,m}^{-1}\text{s}^{-2}}
+= 1\quad (\text{adimensional}).
+\]
+Correcto.
+
+\subsection*{8.2. Velocidad y número de Mach en la salida}
+
+Volumen específico en 2:
+\[
+v_2 = \frac{v_0}{z} \simeq \frac{9.50\times10^{-2}}{0.561}
+      \simeq 1.69\times10^{-1}\ \text{m}^3/\text{kg}.
+\]
+
+Flujo másico por unidad de área:
+\[
+\frac{\dot m}{A} \simeq 4.49\times10^{2}\ \text{kg/(m}^2\text{s)}.
+\]
+
+Densidad en 2: $\rho_2 = 1/v_2 \simeq 5.9\ \text{kg/m}^3$.
+
+Velocidad en 2:
+\[
+u_2 = \frac{\dot m/A}{\rho_2}
+      \simeq \frac{4.49\times10^{2}}{5.9}
+      \simeq \SI{76}{m/s}.
+\]
+
+Para el nitrógeno a unos $\sim \SI{285}{K}$, la velocidad del sonido es del orden de
+\[
+a_2 = \sqrt{\gamma R T_2} \sim \SI{340}{m/s},
+\]
+por lo que
+\[
+M_2 = \frac{u_2}{a_2} \approx \frac{76}{344}\simeq 0.22 \ll 1.
+\]
+
+El flujo es claramente \textbf{subsónico}, coherente con el modelo adoptado.
+
+\section*{9. Comentario final sobre el modelo}
+
+La instalación real no es estrictamente adiabática, pero:
+\begin{itemize}
+  \item $T_1 \approx T_{\text{amb}}$,
+  \item la conducción no es extremadamente larga,
+  \item el enunciado pide un \emph{máximo flujo másico}.
+\end{itemize}
+
+Según el análisis comparativo de modelos:
+\begin{itemize}
+  \item Para este tipo de situación, el flujo real debería ubicarse entre el modelo isotérmico y el adiabático,
+  \item El modelo adiabático funciona como una \textbf{cota superior razonable} de $(w/A)_{\text{real}}$.
+\end{itemize}
+
+El valor obtenido
+\[
+\dot m_{\max} \approx \SI{0.088}{kg/s}
+\]
+puede interpretarse como una estimación del \emph{máximo flujo másico instantáneo} al inicio del proceso,
+físicamente consistente y en acuerdo con la solución de la guía.
+
+\end{document}

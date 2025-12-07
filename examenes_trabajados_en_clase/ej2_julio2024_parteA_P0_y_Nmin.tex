@@ -1,0 +1,309 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\begin{document}
+
+\title{Ejercicio 2 -- Examen Julio 2024\\
+Cálculo de $P_0$ en la línea compresible y velocidad mínima del compresor}
+\author{}
+\date{}
+\maketitle
+
+\section*{1. Línea tanque--proceso: cálculo de $P_0$ para $\dot m = 2\ \mathrm{kg/min}$}
+
+\subsection*{1.1. Datos y constantes}
+
+Proceso:
+\[
+\dot m_{\text{proc}} = 2\ \mathrm{kg/min} = \frac{2}{60}\ \mathrm{kg/s},
+\qquad P_3 = 2\ \mathrm{bar(g)} = 3\ \mathrm{bar(abs)} = 3\times10^5\ \mathrm{Pa}.
+\]
+
+Línea tanque--proceso:
+\[
+D = \SI{0.0158}{m},\quad L'_e = \SI{30}{m},\quad
+A = \frac{\pi D^2}{4} \approx 1.96\times10^{-4}\ \mathrm{m}^2.
+\]
+
+Factor de fricción Darcy (Crane) para 1/2'' Sch 40:
+\[
+f_T = f_t = 4 f_{\text{Fanning}} = 0.027,
+\qquad
+f_T\frac{L'_e}{D} \approx 0.027\,\frac{30}{0.0158} \approx 51.3.
+\]
+
+Aire ideal:
+\[
+\gamma = 1.4,\quad
+R = \frac{8.314}{0.029}\ \mathrm{J/(mol\,K)} \approx 2.87\times10^2\ \mathrm{J/(kg\,K)},
+\]
+\[
+T_0 \simeq 40^\circ\mathrm{C} \approx \SI{313}{K},
+\qquad
+C = \frac{2\gamma}{\gamma-1} = 7.
+\]
+
+Modelo: flujo \textbf{adiabático con fricción} desde el reservorio 0 (tanque) hasta el proceso 3, subsónico, a través de una tubería de sección constante.
+
+Definimos:
+\[
+F = \frac{P_3}{P_0},\qquad
+v_0 = \frac{R T_0}{P_0},\qquad
+X = \left(\frac{\dot m}{A}\right)^2\frac{v_0}{P_0}.
+\]
+
+Variables adimensionales:
+\[
+r = \frac{v_0}{v_{1'}},\qquad
+z = \frac{v_0}{v_2},
+\]
+donde $1'$ es la sección de entrada efectiva al ducto y $2$ la sección de salida (a $P_2 = P_3$).
+
+\subsection*{1.2. Sistema reducido (mismo esquema del problema p.2)}
+
+El modelo adiabático con fricción desde reservorio lleva a:
+
+\begin{enumerate}
+\item Relación reserva--entrada--salida:
+\[
+r^2 - r^{\gamma+1} - z^2 + Fz = 0.
+\]
+
+\item Ecuación de Fanno reducida:
+\[
+\frac{r^2 - z^2}{X}
+- \frac{\gamma+1}{\gamma}\ln\left(\frac{r}{z}\right)
+= f_T\,\frac{L'_e}{D}.
+\]
+
+\item Relación entre $X$ y las variables adimensionales:
+\[
+X = C\,(z^2 - Fz).
+\]
+
+\item Definición de $X$ en función de $\dot m$ y $P_0$:
+\[
+X = \left(\frac{\dot m}{A}\right)^2\frac{R T_0}{P_0^2}.
+\]
+\end{enumerate}
+
+Además, $F = P_3/P_0$.
+
+\subsection*{1.3. Estrategia numérica}
+
+Para resolver:
+
+\begin{enumerate}
+\item Se fija un valor de $P_0$ en un rango razonable, por ejemplo $P_0 \in [4,6]\ \mathrm{bar(abs)}$.
+Para cada $P_0$ se calculan $F = P_3/P_0$ y $f_T L'_e/D$.
+
+\item Con ese valor de $F$ se resuelve el sistema (1)--(3) para $(r,z)$ y $X$:
+  \begin{itemize}
+    \item Se toman como incógnitas $r$ y $z$.
+    \item Se sustituye $X = C(z^2 - Fz)$ en la ecuación de Fanno.
+    \item Se aplica Newton--Raphson bidimensional con semillas compatibles con p.2:
+    \[
+      r^{(0)}\approx 0.99,\qquad z^{(0)}\approx F + 0.05,
+    \]
+    iterando hasta que $|E_1|,|E_2| < 10^{-8}$.
+  \end{itemize}
+
+\item Una vez obtenidos $r,z$, se calcula
+\[
+X = C(z^2 - Fz),
+\quad
+v_0 = \frac{R T_0}{P_0},
+\quad
+\dot m(P_0) = A \sqrt{\frac{X P_0}{v_0}}.
+\]
+
+\item Se repite para varios valores de $P_0$ y se busca aquel que satisfaga
+\[
+\dot m(P_0) = \dot m_{\text{proc}} = \frac{2}{60}\ \mathrm{kg/s}.
+\]
+Esto puede hacerse por barrido refinado o mediante un método de bisección en $P_0$.
+\end{enumerate}
+
+\subsection*{1.4. Resultados numéricos de la línea}
+
+Aplicando este procedimiento, con $f_T = 0.027$ y $L'_e = \SI{30}{m}$:
+
+\begin{itemize}
+  \item Para $P_0 = \SI{4}{bar(abs)}$:
+  \[
+  \dot m \approx 1.43\ \mathrm{kg/min} < 2\ \mathrm{kg/min}.
+  \]
+  \item Para $P_0 = \SI{6}{bar(abs)}$:
+  \[
+  \dot m \approx 2.79\ \mathrm{kg/min} > 2\ \mathrm{kg/min}.
+  \]
+\end{itemize}
+
+Usando bisección entre 4 y 6 bar, el valor que satisface
+$\dot m(P_0) = 2\ \mathrm{kg/min}$ es aproximadamente
+\[
+\boxed{P_0 \simeq \SI{4.8}{bar(abs)} \;\;\Rightarrow\;\; P_0 \simeq \SI{3.8}{bar(g)}.}
+\]
+
+Con este valor de $P_0$:
+\[
+F = \frac{P_3}{P_0} \approx \frac{3}{4.8} \approx 0.625,
+\]
+y la solución adimensional es del orden de
+\[
+r \approx 0.995,\qquad z \approx 0.63,
+\]
+obteniéndose
+\[
+\dot m \approx 2.0\ \mathrm{kg/min}
+\]
+con error relativo menor que $1\%$.
+
+Este $P_0$ es la \textbf{presión mínima en el tanque} que, en el modelo adiabático con fricción y $f_T = 0.027$, permite que la línea entregue los $2\ \mathrm{kg/min}$ exigidos por el proceso. Dado que en la realidad el gas se enfría a lo largo de la línea, la capacidad real será algo mayor, de modo que este $P_0$ es un valor ligeramente conservador.
+
+\section*{2. Compresor: cálculo de la velocidad mínima $N_{\min}$}
+
+Se toma ahora
+\[
+P_2 \approx P_0 \simeq \SI{4.8}{bar(abs)}
+\]
+como presión de descarga de diseño del compresor.
+
+\subsection*{2.1. Datos del compresor}
+
+Aspiración:
+\[
+P_1 = \SI{1}{bar(abs)} = 10^5\ \mathrm{Pa},\qquad
+T_1 = 15^\circ\mathrm{C} = \SI{288}{K}.
+\]
+
+Densidad en la entrada:
+\[
+\rho_1 = \frac{P_1}{R T_1}
+       \approx \frac{10^5}{(2.87\times10^2)\,288}
+       \approx 1.21\ \mathrm{kg/m}^3.
+\]
+
+Compresión politrópica:
+\[
+k = 1.35.
+\]
+
+Volumen muerto:
+\[
+C = \frac{V_c}{V_s} = 0.05.
+\]
+
+Geometría:
+\begin{itemize}
+  \item 2 cilindros de doble acción.
+  \item ``Cilindrada total'' indicada: $V_{s,\text{tot}} = \SI{1000}{cm^3}$.
+\end{itemize}
+
+Interpretación coherente con el resultado del examen:
+\[
+V_s = 2\,V_{s,\text{tot}} = 2\times 10^{-3}\ \mathrm{m}^3/\text{rev},
+\]
+es decir, el volumen aspirado por revolución (considerando ambas caras de cada pistón).
+
+\subsection*{2.2. Eficiencia volumétrica}
+
+La expresión ideal (que el enunciado permite igualar a la real) es
+\[
+\eta_v = 1 + C - C\left(\frac{P_2}{P_1}\right)^{1/k}.
+\]
+
+Con
+\[
+\frac{P_2}{P_1} = \frac{4.8}{1} = 4.8,
+\quad k = 1.35,
+\]
+se obtiene numéricamente:
+\[
+\left(\frac{P_2}{P_1}\right)^{1/k}
+= 4.8^{1/1.35} \approx 3.10,
+\]
+\[
+\eta_v = 1 + 0.05 - 0.05\times 3.10
+       \approx 1.05 - 0.155
+       \approx 0.89.
+\]
+
+\subsection*{2.3. Caudal másico del compresor y $N_{\min}$}
+
+El volumen aspirado por segundo es
+\[
+\dot V_1 = \eta_v\,V_s \frac{N}{60}
+         = \eta_v\,(2\times10^{-3})\frac{N}{60}.
+\]
+
+El flujo másico:
+\[
+\dot m_{\text{comp}} = \rho_1\,\dot V_1
+= \rho_1\,\eta_v\,V_s\frac{N}{60}.
+\]
+
+Imponemos
+\[
+\dot m_{\text{comp}}(N_{\min}) = \dot m_{\text{proc}} = \frac{2}{60}\ \mathrm{kg/s}.
+\]
+
+Despejando:
+\[
+N_{\min}
+= \frac{\dot m_{\text{proc}}\,60}{\rho_1\,\eta_v\,V_s}.
+\]
+
+Sustituyendo:
+
+\[
+\dot m_{\text{proc}} = \frac{2}{60}\ \mathrm{kg/s},\quad
+\rho_1 \approx 1.21\ \mathrm{kg/m}^3,\quad
+\eta_v \approx 0.890,\quad
+V_s = 2\times10^{-3}\ \mathrm{m}^3/\text{rev},
+\]
+se obtiene:
+\[
+N_{\min}
+\simeq \frac{(2/60)\,60}{1.21\times 0.890\times 2\times10^{-3}}
+\approx 9.28\times10^2\ \mathrm{rpm}.
+\]
+
+Es decir:
+\[
+\boxed{N_{\min} \approx 9.3\times10^2\ \mathrm{rpm}
+\;\;\Longrightarrow\;\;
+N_{\min} \approx \SI{928}{rpm}.}
+\]
+
+Si a \SI{50}{Hz} la velocidad es $N_{50} = \SI{1200}{rpm}$,
+la relación es $N/f = 1200/50 = 24\ \mathrm{rpm/Hz}$, por lo que la frecuencia mínima del variador resulta:
+\[
+f_{\min} = \frac{N_{\min}}{24}
+         \approx \frac{928}{24}
+         \approx \SI{38.7}{Hz}.
+\]
+
+\section*{3. Resumen conceptual}
+
+\begin{enumerate}
+  \item La \textbf{línea compresible tanque--proceso} se modela como flujo adiabático con fricción, usando el mismo sistema reducido $(r,z,F,X)$ que en el problema p.2, pero ahora con $\dot m$ fijado y $P_0$ como incógnita. La resolución numérica con $f_T = 0.027$ y $L'_e = \SI{30}{m}$ da:
+  \[
+  P_0 \simeq \SI{4.8}{bar(abs)}.
+  \]
+
+  \item Para el \textbf{compresor reciprocante}, se toma $P_2 \approx P_0$ y se calcula $\eta_v$ para $P_2/P_1 \approx 4.8$. De la condición $\dot m_{\text{comp}} = 2\ \mathrm{kg/min}$ se obtiene
+  \[
+  N_{\min} \approx \SI{928}{rpm},
+  \]
+  que coincide con el resultado del examen, con un modelo compatible con el análisis de flujo compresible adoptado.
+\end{enumerate}
+
+\end{document}

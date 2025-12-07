@@ -1,0 +1,242 @@
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{siunitx}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\begin{document}
+
+\title{Línea tanque--proceso: planteo del modelo adiabático con \texorpdfstring{$P_0$}{P0} desconocida}
+\author{}
+\date{}
+\maketitle
+
+\section*{1. Subproblema que se modela}
+
+Consideramos sólo la \textbf{línea tanque--proceso}:
+
+\begin{itemize}
+  \item Reservorio 0: el tanque, a presión desconocida $P_0$ y temperatura aproximadamente constante
+  \[
+    T_0 \simeq 40^\circ\text{C} \approx \SI{313}{K}.
+  \]
+  \item Reservorio 3: el proceso, que opera a presión
+  \[
+    P_3 = \SI{2}{bar(g)} = \SI{3}{bar(abs)}.
+  \]
+  \item Conducción: tubería de acero Sch 40, 1/2'' nominal, longitud equivalente
+  \[
+    L'_e = \SI{30}{m},\qquad D \simeq \SI{0.0158}{m}.
+  \]
+  \item Gas: aire, tratado como gas ideal:
+  \[
+    M = \SI{29}{g/mol},\quad
+    \gamma = \frac{c_p}{c_v} = 1.4,\quad
+    R = \frac{R_u}{M} \approx \frac{8.314}{0.029}\simeq 2.87\times10^2\ \text{J/(kg\,K)}.
+  \]
+  \item Factor de fricción Darcy tabulado (Crane) para 1/2'' Sch 40, régimen turbulento completo:
+  \[
+    f_T \simeq 0.026.
+  \]
+\end{itemize}
+
+Condición de diseño en régimen permanente:
+\[
+\dot m = \dot m_{\text{proc}} = \SI{2}{kg/min} =
+\frac{2}{60}\ \text{kg/s} \approx 3.33\times10^{-2}\ \text{kg/s}.
+\]
+
+El objetivo de esta parte es expresar el \textbf{sistema de ecuaciones no lineales reducido} cuyas incógnitas son $(r,z,F)$ (o, equivalentemente, $P_0$), para este flujo adiabático con fricción.
+
+\section*{2. Hipótesis físicas y elección del modelo}
+
+Para la línea se adoptan las siguientes hipótesis:
+
+\begin{enumerate}
+  \item \textbf{Flujo estacionario} (aproximación cuasi-permanente en régimen).
+  \item \textbf{Gas ideal}, propiedades constantes $(R,\gamma)$.
+  \item \textbf{Conducción horizontal, sección constante}, sin trabajo de eje.
+  \item \textbf{Modelo adiabático con fricción} (tipo Fanno + reservorio) como modelo ideal:
+
+  El tanque está a $T_0\simeq 40^\circ\text{C}$ y el ambiente a $15^\circ\text{C}$.
+  El gas se enfría a lo largo de la línea ($Q<0$).
+  Del análisis comparativo de modelos (S4):
+  \[
+  \left(\frac{w}{A}\right)_{\text{iso}}
+  < \left(\frac{w}{A}\right)_{\text{adiab}}
+  < \left(\frac{w}{A}\right)_{\text{real, enfriado}},
+  \]
+  es decir, el modelo adiabático da un \textbf{flujo menor} que el real; se usa como
+  modelo conservador que da la \textbf{mínima capacidad} de la línea para una
+  dada caída de presión.
+\end{enumerate}
+
+En resumen, se resuelve la línea completa 0--3 como un flujo adiabático desde un reservorio 0 hasta un reservorio 3, subsónico, con $\dot m$ dado y $P_0$ (por ende $F=P_3/P_0$) desconocido.
+
+\section*{3. Definición de variables adimensionales}
+
+Se reutiliza la misma reducción que para ``flujo adiabático desde reservorio, subsónico''.
+
+Volumen específico en el reservorio 0:
+\[
+v_0 = \frac{R T_0}{P_0}.
+\]
+
+Variables adimensionales:
+\[
+r = \frac{v_0}{v_{1'}},\qquad
+z = \frac{v_0}{v_2},
+\]
+donde $1'$ es la sección de entrada efectiva del ducto y $2$ una sección
+interna, que se toma coincidente con las condiciones del proceso, es decir
+$P_2 = P_3$.
+
+Relación de presiones (reservorio 0 $\to$ proceso):
+\[
+F = \frac{P_3}{P_0}.
+\]
+
+Parámetro de flujo:
+\[
+X = \left(\frac{\dot m}{A}\right)^2 \frac{v_0}{P_0},
+\]
+con
+\[
+A = \frac{\pi D^2}{4}
+\]
+el área interna de la tubería.
+
+Además:
+\[
+C = \frac{2\gamma}{\gamma-1}.
+\]
+Para aire ($\gamma=1.4$), $C=7$.
+
+\section*{4. Sistema reducido de ecuaciones (forma estructural)}
+
+Del desarrollo adiabático con fricción desde reservorio, las ecuaciones reducidas son:
+
+\begin{enumerate}
+  \item Relación reserva--entrada--salida:
+  \[
+  r^2 - r^{\gamma+1} - z^2 + Fz = 0.
+  \]
+
+  \item Definición reducida de $X$ (energía + estado del gas):
+  \[
+  X = C\,(z^2 - Fz).
+  \]
+
+  \item Ecuación de Fanno reducida entre $1'$ y $2$:
+  \[
+  \frac{r^2 - z^2}{X}
+  - \frac{\gamma+1}{\gamma}\ln\left(\frac{r}{z}\right)
+  = f_T\,\frac{L'_e}{D}.
+  \]
+\end{enumerate}
+
+Hasta aquí es el mismo sistema que en el problema p.2, pero allí:
+
+\begin{itemize}
+  \item $\dot m$ (y, por tanto, $X$) era incógnita,
+  \item $F = P_2/P_0$ era dato.
+\end{itemize}
+
+Ahora es al revés:
+
+\begin{itemize}
+  \item $\dot m$ es \textbf{dato},
+  \item $F$ (y, en consecuencia, $P_0$) es \textbf{incógnita}.
+\end{itemize}
+
+\section*{5. Cierre del sistema incorporando \texorpdfstring{$\dot m$}{m punto} dado}
+
+Usamos la definición general de $X$:
+\[
+X = \left(\frac{\dot m}{A}\right)^2 \frac{v_0}{P_0}
+  = \left(\frac{\dot m}{A}\right)^2 \frac{R T_0}{P_0^2}.
+\]
+
+Pero $P_0$ se relaciona con $F$ mediante
+\[
+F = \frac{P_3}{P_0}
+\quad\Rightarrow\quad
+P_0 = \frac{P_3}{F}.
+\]
+
+Entonces:
+\[
+X = \left(\frac{\dot m}{A}\right)^2
+    \frac{R T_0}{\left(\dfrac{P_3}{F}\right)^2}
+  = \left(\frac{\dot m}{A}\right)^2
+    \frac{R T_0\,F^2}{P_3^2}.
+\]
+
+Definimos la constante conocida
+\[
+K = \left(\frac{\dot m}{A}\right)^2
+    \frac{R T_0}{P_3^2},
+\]
+de modo que
+\[
+X(F) = K\,F^2.
+\]
+
+Del modelo adiabático también tenemos
+\[
+X = C\,(z^2 - Fz).
+\]
+
+Igualando ambas expresiones de $X$, se obtiene una ecuación adicional que liga $z$ y $F$:
+\[
+C\,(z^2 - Fz) = K\,F^2.
+\]
+
+\section*{6. Sistema final en incógnitas \texorpdfstring{$(r,z,F)$}{(r,z,F)}}
+
+El problema de la línea tanque--proceso, en el modelo adiabático reducido con $\dot m$ dado, queda como el sistema no lineal:
+
+\[
+\begin{cases}
+E_1(r,z,F) = r^2 - r^{\gamma+1} - z^2 + Fz = 0,\\[6pt]
+E_2(r,z,F) =
+\dfrac{r^2 - z^2}{C\,(z^2 - Fz)}
+- \dfrac{\gamma+1}{\gamma}\ln\left(\dfrac{r}{z}\right)
+- f_T\dfrac{L'_e}{D} = 0,\\[10pt]
+E_3(z,F) = C\,(z^2 - Fz) - K F^2 = 0,
+\end{cases}
+\]
+donde:
+\[
+\gamma = 1.4,\quad
+C = \frac{2\gamma}{\gamma-1} = 7,\quad
+f_T = 0.026,\quad
+L'_e = \SI{30}{m},\quad
+D \simeq \SI{0.0158}{m},
+\]
+\[
+A = \frac{\pi D^2}{4},\quad
+T_0 \simeq \SI{313}{K},\quad
+P_3 = \SI{3}{bar(abs)} = 3\times10^5\ \text{Pa},
+\]
+\[
+\dot m = \frac{2}{60}\ \text{kg/s},\quad
+R \approx 2.87\times10^2\ \text{J/(kg\,K)},
+\]
+\[
+K = \left(\frac{\dot m}{A}\right)^2
+      \frac{R T_0}{P_3^2}.
+\]
+
+Una vez resuelto este sistema se obtienen $(r,z,F)$ y se recupera
+\[
+P_0 = \frac{P_3}{F}.
+\]
+
+Este $P_0$ es el \textbf{mínimo} que, en el modelo adiabático (conservador aquí), permite que la línea entregue $\dot m = 2\ \text{kg/min}$.
+
+\end{document}
