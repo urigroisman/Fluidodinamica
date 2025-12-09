@@ -1,0 +1,465 @@
+%============================================================
+% PREÁMBULO OFICIAL FLUIDODINAMICA_BASE
+%============================================================
+
+\documentclass[12pt, a4paper]{article}
+
+%------------------------------------------------------------
+% Idioma, codificación y tipografía
+%------------------------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}        % Tipografía moderna, clara y apta para PDF
+\usepackage{microtype}      % Optimiza microtipografía (ideal para libros y apuntes)
+
+%------------------------------------------------------------
+% Matemática
+%------------------------------------------------------------
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{bm}             % Vectores y tensores en negrita: \bm{u}
+\usepackage{mathtools}      % Extensiones de amsmath
+\usepackage{siunitx}        % Notación correcta de unidades SI
+\sisetup{
+  locale = DE,            % usa coma decimal si querés; cambiar a US para punto
+  per-mode = symbol,
+  exponent-product = \cdot,
+  separate-uncertainty = true
+}
+
+%------------------------------------------------------------
+% Gráficos y figuras
+%------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}     % Figuras con subfiguras
+\usepackage{wrapfig}
+
+%------------------------------------------------------------
+% Diseño de página
+%------------------------------------------------------------
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  left=25mm,
+  right=25mm,
+  top=25mm,
+  bottom=25mm
+}
+
+\usepackage{setspace}       % Control de espaciado (opcional)
+\onehalfspacing             % Espaciado 1.5 (queda excelente para apuntes)
+
+%------------------------------------------------------------
+% Tablas profesionales
+%------------------------------------------------------------
+\usepackage{booktabs}       % Líneas horizontales profesionales
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{longtable}
+
+%------------------------------------------------------------
+% Enlaces
+%------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}  % Enlaces sin recuadros
+
+%------------------------------------------------------------
+% Colores y cajas
+%------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbset{
+  colback = white,
+  colframe = black,
+  arc = 2mm,
+  boxrule = 0.6pt
+}
+
+%------------------------------------------------------------
+% Ambientes personalizados
+%------------------------------------------------------------
+
+% Entorno para ejercicios
+\newenvironment{ejercicio}[1][]{
+  \begin{tcolorbox}[title={\textbf{Ejercicio #1}}, colback=gray!5]
+}{
+  \end{tcolorbox}
+}
+
+% Entorno para soluciones
+\newenvironment{solucion}{
+  \begin{tcolorbox}[title={\textbf{Solución}}, colback=blue!3]
+}{
+  \end{tcolorbox}
+}
+
+% Para dejar comentarios o notas al margen
+\newcommand{\nota}[1]{\textcolor{blue}{\textbf{#1}}}
+
+%============================================================
+% FIN DEL PREÁMBULO
+%============================================================
+\begin{document}
+
+%============================================================
+% Ejercicio c.2 – Medidor de orificio en la descarga de una bomba
+%============================================================
+
+\subsection*{Ejercicio c.2: Placa de orificio en la línea de descarga}
+
+La instalación de la figura se utiliza para transportar agua desde una laguna hasta un
+tanque intermedio para distribución. En la línea de conducción se ha instalado un
+medidor de orificio de borde a escuadra con tomas de esquina. 
+
+Cuando el nivel en el tanque es el indicado en la figura, la lectura del manómetro
+diferencial conectado al orificio es de $18\,\text{cm}$. A su vez, un manómetro ubicado
+en la descarga de la bomba indica una presión de $2\,\text{bar}$.
+
+Determinar la longitud de la línea de descarga de la bomba.
+
+\medskip
+
+\noindent
+\textbf{Datos adicionales:}
+\begin{itemize}
+  \item Agua: $\rho = 997\,\text{kg/m}^3$, $\mu = 9{,}7\times 10^{-4}\,\text{Pa\,s}$.
+  \item Cañería: IPS Sch 40, diámetro nominal $1''$.
+        Diámetro interno: $D \simeq 0{,}0266\,\text{m}$.
+        Rugosidad absoluta: $\varepsilon = 4{,}5\times 10^{-5}\,\text{m}$.
+  \item Línea de succión: 1 válvula de retención, 1 codo $90^\circ$ (no se usan en este ítem).
+  \item Línea de descarga: 1 válvula globo, 2 codos $90^\circ$, 1 orificio de borde a escuadra.
+  \item Propiedades del fluido manométrico: $\rho_\text{man} = 13500\,\text{kg/m}^3$ (Hg).
+  \item Diámetro del orificio: $d_o = 2{,}0\,\text{cm} = 0{,}020\,\text{m}$.
+  \item Lectura del manómetro diferencial del orificio: $\Delta h = 18\,\text{cm}$.
+  \item La pérdida de presión permanente del orificio es el $40\,\%$ de la
+        diferencia de presión medida por el manómetro asociado al orificio.
+  \item El tanque intermedio está venteado a la atmósfera.
+  \item Diferencia de cota entre el eje de la cañería de descarga y el nivel
+        libre del tanque: $z_3 - z_2 = 2{,}0\,\text{m}$.
+  \item Manómetro en la descarga de la bomba: $P_2 = 2\,\text{bar}$ (presión manométrica).
+\end{itemize}
+
+\noindent
+\textbf{Incógnita:} longitud de la línea de descarga $L$ [m].
+
+%------------------------------------------------------------
+\subsubsection*{1. Hipótesis}
+
+\begin{enumerate}
+  \item Régimen estacionario, agua incompresible, propiedades constantes.
+  \item Se desprecia la velocidad en la superficie libre del tanque ($V_3\simeq 0$).
+  \item Tanto el manómetro en la descarga de la bomba como el del orificio
+        miden presiones manométricas.
+  \item El diámetro en la descarga es constante, por lo que la velocidad media $V$
+        es la misma a lo largo de toda la línea (incluyendo la sección del orificio,
+        salvo en la vena contraída).
+  \item El orificio se modela según el teórico de ``medidores por restricción de área'':
+        $\;Q = C_D A_o \sqrt{2\Delta P/[\rho(1-\beta^4)]}\;$ para un orificio de borde a escuadra.
+  \item La altura geométrica relevante es la diferencia entre el eje de la cañería de descarga
+        y el nivel libre del tanque: $z_3 - z_2 = 2\,\text{m}$.
+\end{enumerate}
+
+%------------------------------------------------------------
+\subsubsection*{2. Modelo del orificio y caudal en la línea}
+
+\paragraph{2.1. Diferencia de presión en el orificio.}
+
+Con tomas de esquina al mismo nivel y agua como fluido de proceso, el salto de presión
+entre las secciones 1 (antes del orificio) y 2 (después del orificio) viene dado por
+la lectura del manómetro diferencial con fluido manométrico de densidad
+$\rho_\text{man}$:
+
+\[
+\Delta P_{\text{man}} = P_1 - P_2 = (\rho_\text{man} - \rho)\,g\,\Delta h.
+\]
+
+Sustituyendo numéricamente:
+
+\[
+\Delta P_{\text{man}}
+= (13500 - 997)\,\text{kg/m}^3 \cdot 9{,}81\,\text{m/s}^2 \cdot 0{,}18\,\text{m}
+\approx 2{,}21\times 10^4\,\text{Pa}.
+\]
+
+\paragraph{2.2. Ecuación de orificio.}
+
+Para el orificio de borde a escuadra con flujo turbulento, tus notas de clase
+indican un coeficiente de descarga típico $C_D \simeq 0{,}62$ cuando
+$\text{Re}>3\times 10^4$.
+
+La relación de diámetros es
+
+\[
+\beta = \frac{d_o}{D} = \frac{0{,}020}{0{,}0266} \approx 0{,}75,
+\qquad
+1-\beta^4 \approx 0{,}68.
+\]
+
+El área del orificio es
+
+\[
+A_o = \frac{\pi d_o^2}{4}
+    = \frac{\pi (0{,}020)^2}{4}
+    = 3{,}14\times 10^{-4}\,\text{m}^2.
+\]
+
+La ecuación reducida de orificio (análogo del Venturi) es
+
+\[
+Q = C_D\,A_o\,
+    \sqrt{\frac{2\,\Delta P_{\text{man}}}{\rho (1-\beta^4)}}.
+\]
+
+Sustituyendo:
+
+\[
+Q \approx 0{,}62 \times 3{,}14\times 10^{-4}
+    \sqrt{\frac{2\cdot 2{,}21\times 10^4}{997\cdot 0{,}68}}
+   \;\approx\; 1{,}6\times 10^{-3}\,\text{m}^3/\text{s}.
+\]
+
+\[
+\boxed{Q \approx 1{,}6\times 10^{-3}\,\text{m}^3/\text{s}
+      \;\; (\approx 5{,}7\,\text{m}^3/\text{h}).}
+\]
+
+La velocidad media en la cañería de descarga (diámetro $D$) es
+
+\[
+A = \frac{\pi D^2}{4}
+  = \frac{\pi (0{,}0266)^2}{4}
+  \approx 5{,}56\times 10^{-4}\,\text{m}^2,
+\]
+
+\[
+V = \frac{Q}{A}
+  \approx \frac{1{,}6\times 10^{-3}}{5{,}56\times 10^{-4}}
+  \approx 2{,}8\,\text{m/s}.
+\]
+
+El número de Reynolds en la cañería es
+
+\[
+\text{Re} = \frac{\rho V D}{\mu}
+          \approx \frac{997 \cdot 2{,}8 \cdot 0{,}0266}{9{,}7\times 10^{-4}}
+          \sim 7\times 10^4,
+\]
+
+lo que valida el uso de $C_D\simeq 0{,}62$.
+
+%------------------------------------------------------------
+\subsubsection*{3. Factor de fricción en la descarga}
+
+Usando la correlación de Churchill/Colebrook con $\varepsilon = 4{,}5\times 10^{-5}\,\text{m}$,
+$\text{Re}\sim 7\times 10^4$ y $D=0{,}0266\,\text{m}$, se obtiene un factor de fricción
+de Darcy del orden
+
+\[
+c_f \simeq 0{,}024\text{--}0{,}025.
+\]
+
+En lo que sigue se tomará un valor típico
+\[
+c_f \approx 0{,}024,
+\]
+acorde con tus tablas y con el cálculo por Churchill en la planilla correspondiente.
+
+La energía cinética específica en la línea es
+
+\[
+\frac{V^2}{2g}
+= \frac{(2{,}8)^2}{2\cdot 9{,}81}
+\approx 0{,}41\,\text{m}.
+\]
+
+%------------------------------------------------------------
+\subsubsection*{4. Balance de energía entre la descarga de la bomba y el tanque}
+
+Consideramos la sección $2$ en la descarga de la bomba (donde está el manómetro) 
+y la sección $3$ en el nivel libre del tanque. Tomamos el eje de la cañería de descarga
+como referencia $z_2 = 0$, de modo que $z_3 = 2{,}0\,\text{m}$.
+
+El balance de energía entre $2$ y $3$ (sin máquinas entre ambas secciones) es
+
+\[
+\frac{P_2}{\rho g} + z_2 + \frac{V^2}{2g}
+=
+\frac{P_3}{\rho g} + z_3 + \frac{V_3^2}{2g} + h_{L,23},
+\]
+
+donde $h_{L,23}$ son las pérdidas totales entre 2 y 3. Como el tanque está venteado,
+$P_3 = P_{\text{atm}}$ y el manómetro en 2 mide presión manométrica, se tiene
+$P_2/(\rho g)$ directamente como carga de presión en 2:
+
+\[
+\frac{P_2}{\rho g}
+= \frac{2\times 10^5}{997\cdot 9{,}81}
+\approx 20{,}4\,\text{m}.
+\]
+
+Además, $V_3 \simeq 0$, por lo que
+
+\[
+h_{L,23}
+= \frac{P_2}{\rho g} + 0 + \frac{V^2}{2g}
+- \left(0 + 2{,}0 + 0\right)
+\approx 20{,}4 + 0{,}41 - 2{,}0
+\approx 18{,}9\,\text{m}.
+\]
+
+Es decir, la bomba entrega una carga tal que, entre su descarga y el tanque,
+se pierden aproximadamente $18{,}9\,\text{m}$ de columna de agua.
+
+%------------------------------------------------------------
+\subsubsection*{5. Descomposición de las pérdidas $h_{L,23}$}
+
+Descomponemos las pérdidas en:
+
+\[
+h_{L,23} = h_{f,L} + h_{\text{loc,desc}} + h_{\text{perm, orif}},
+\]
+
+donde:
+
+\begin{itemize}
+  \item $h_{f,L}$: pérdida por fricción distribuida en la longitud recta $L$,
+        \[
+        h_{f,L} = c_f\,\frac{L}{D}\,\frac{V^2}{2g}.
+        \]
+  \item $h_{\text{loc,desc}}$: pérdidas localizadas en la descarga \emph{excepto}
+        la pérdida permanente del orificio (válvula globo, codos $90^\circ$ y
+        descarga sumergida).
+  \item $h_{\text{perm, orif}}$: pérdida permanente asociada al orificio
+        (dato del enunciado).
+\end{itemize}
+
+\paragraph{5.1. Pérdida permanente del orificio.}
+
+La pérdida permanente es el $40\,\%$ de la diferencia de presión medida:
+
+\[
+h_{\text{perm, orif}}
+= 0{,}40\,\frac{\Delta P_{\text{man}}}{\rho g}
+\approx 0{,}40\,
+\frac{2{,}21\times 10^4}{997\cdot 9{,}81}
+\approx 0{,}90\,\text{m}.
+\]
+
+\paragraph{5.2. Pérdidas localizadas en válvula, codos y descarga sumergida.}
+
+De acuerdo con las tablas de Crane (usadas en la asignatura), expresadas como
+longitudes equivalentes:
+
+\[
+\left(\frac{L_e}{D}\right)_\text{globo} \approx 340,\qquad
+\left(\frac{L_e}{D}\right)_\text{codo} \approx 30,
+\]
+
+de modo que para 1 válvula globo y 2 codos:
+
+\[
+\left(\frac{L_e}{D}\right)_\text{total desc}
+= 340 + 2\cdot 30 = 400.
+\]
+
+La pérdida equivalente de estos accesorios es
+
+\[
+h_{\text{valv+codos}}
+= c_f\left(\frac{L_e}{D}\right)_\text{total desc}\frac{V^2}{2g}
+= c_f\,400\,\frac{V^2}{2g}.
+\]
+
+Además, la descarga sumergida produce una pérdida adicional asociada a la
+pérdida completa de la energía cinética:
+
+\[
+h_{\text{descarga sumergida}} = K\,\frac{V^2}{2g},
+\qquad K = 1.
+\]
+
+Por tanto,
+
+\[
+h_{\text{loc,desc}}
+= c_f\,400\,\frac{V^2}{2g} + 1\cdot \frac{V^2}{2g}.
+\]
+
+\paragraph{5.3. Cálculo numérico.}
+
+Con $c_f \approx 0{,}024$ y $V^2/(2g)\approx 0{,}41\,\text{m}$:
+
+\[
+h_{\text{valv+codos}}
+\approx 0{,}024\cdot 400\cdot 0{,}41
+\approx 3{,}9\,\text{m},
+\]
+
+\[
+h_{\text{descarga sumergida}} \approx 1\cdot 0{,}41 \approx 0{,}4\,\text{m},
+\]
+
+\[
+h_{\text{loc,desc}} \approx 3{,}9 + 0{,}4 \approx 4{,}3\text{--}4{,}5\,\text{m}.
+\]
+
+\paragraph{5.4. Pérdida por fricción en la tubería recta y longitud $L$.}
+
+Del balance global:
+
+\[
+h_{f,L}
+= h_{L,23} - h_{\text{loc,desc}} - h_{\text{perm, orif}}
+\approx 18{,}9 - 4{,}4 - 0{,}9
+\approx 13{,}6\,\text{m}.
+\]
+
+Pero
+
+\[
+h_{f,L} = c_f\,\frac{L}{D}\,\frac{V^2}{2g}
+\quad\Rightarrow\quad
+L = \frac{h_{f,L}\,D}{c_f}\,\frac{2g}{V^2}.
+\]
+
+Sustituyendo $h_{f,L}\approx 13{,}6\,\text{m}$,
+$c_f \approx 0{,}024$, $D = 0{,}0266\,\text{m}$,
+$V^2/(2g)\approx 0{,}41\,\text{m}$:
+
+\[
+L \approx
+\frac{13{,}6\cdot 0{,}0266}{0{,}024}\cdot
+\frac{1}{0{,}41}
+\;\approx\; 3{,}8\times 10^{1}\,\text{m}.
+\]
+
+\[
+\boxed{L \approx 3{,}8\times 10^{1}\,\text{m}
+      \;\; (\text{longitud de descarga del orden de } 38\,\text{m}).}
+\]
+
+%------------------------------------------------------------
+\subsubsection*{6. Comentario final}
+
+\begin{itemize}
+  \item El orificio se ha modelado exactamente como en el teórico de medidores
+        por restricción de área, con $C_D\simeq 0{,}62$ y el factor geométrico
+        $(1-\beta^4)$.
+  \item La diferencia de presión en el orificio se obtuvo a partir del manómetro
+        diferencial con fluido de alta densidad (Hg), y se utilizó la fracción
+        $40\,\%$ para la pérdida permanente, como indica el enunciado.
+  \item En el balance de energía 2--3 se incluyeron:
+        \begin{enumerate}
+          \item la elevación geométrica $(z_3-z_2)$,
+          \item la pérdida distribuida en la longitud $L$,
+          \item las pérdidas localizadas de la válvula globo y los dos codos,
+          \item y, muy importante, la pérdida con $K=1$ asociada a la 
+                \emph{descarga sumergida}, que representa la disipación de
+                toda la energía cinética del chorro al ingresar al tanque.
+        \end{enumerate}
+  \item El resultado $L \approx 38\,\text{m}$ es coherente con la orden de 
+        magnitud de las pérdidas calculadas y con el régimen turbulento de 
+        escoamiento en una cañería de $1''$.
+\end{itemize}
+
+\end{document}

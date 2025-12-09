@@ -1,0 +1,267 @@
+%============================================================
+% PREÁMBULO OFICIAL FLUIDODINAMICA_BASE
+%============================================================
+
+\documentclass[12pt, a4paper]{article}
+
+%------------------------------------------------------------
+% Idioma, codificación y tipografía
+%------------------------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}        % Tipografía moderna, clara y apta para PDF
+\usepackage{microtype}      % Optimiza microtipografía (ideal para libros y apuntes)
+
+%------------------------------------------------------------
+% Matemática
+%------------------------------------------------------------
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{bm}             % Vectores y tensores en negrita: \bm{u}
+\usepackage{mathtools}      % Extensiones de amsmath
+\usepackage{siunitx}        % Notación correcta de unidades SI
+\sisetup{
+  locale = DE,            % usa coma decimal si querés; cambiar a US para punto
+  per-mode = symbol,
+  exponent-product = \cdot,
+  separate-uncertainty = true
+}
+
+%------------------------------------------------------------
+% Gráficos y figuras
+%------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}     % Figuras con subfiguras
+\usepackage{wrapfig}
+
+%------------------------------------------------------------
+% Diseño de página
+%------------------------------------------------------------
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  left=25mm,
+  right=25mm,
+  top=25mm,
+  bottom=25mm
+}
+
+\usepackage{setspace}       % Control de espaciado (opcional)
+\onehalfspacing             % Espaciado 1.5 (queda excelente para apuntes)
+
+%------------------------------------------------------------
+% Tablas profesionales
+%------------------------------------------------------------
+\usepackage{booktabs}       % Líneas horizontales profesionales
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{longtable}
+
+%------------------------------------------------------------
+% Enlaces
+%------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}  % Enlaces sin recuadros
+
+%------------------------------------------------------------
+% Colores y cajas
+%------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbset{
+  colback = white,
+  colframe = black,
+  arc = 2mm,
+  boxrule = 0.6pt
+}
+
+%------------------------------------------------------------
+% Ambientes personalizados
+%------------------------------------------------------------
+
+% Entorno para ejercicios
+\newenvironment{ejercicio}[1][]{
+  \begin{tcolorbox}[title={\textbf{Ejercicio #1}}, colback=gray!5]
+}{
+  \end{tcolorbox}
+}
+
+% Entorno para soluciones
+\newenvironment{solucion}{
+  \begin{tcolorbox}[title={\textbf{Solución}}, colback=blue!3]
+}{
+  \end{tcolorbox}
+}
+
+% Para dejar comentarios o notas al margen
+\newcommand{\nota}[1]{\textcolor{blue}{\textbf{#1}}}
+
+%============================================================
+% FIN DEL PREÁMBULO
+%============================================================
+\begin{document}
+
+%============================================================
+% Ejercicio p.2 – Tubo Pitot en cañería de 1 1/2"
+%============================================================
+
+\subsection*{Ejercicio p.3: Medición de caudal con tubo Pitot}
+
+Por una cañería de acero comercial IPS Sch 40 de diámetro nominal
+$1{\,}1/2''$ en la que circula agua se encuentra instalado un tubo Pitot.
+Si el tubo queda ubicado en el centro de la cañería, determinar el flujo
+másico de agua (en kg/s) cuando la lectura del manómetro asociado al
+tubo Pitot es de $6{,}1\,\text{kPa}$.
+
+\medskip
+
+\noindent
+\textbf{Datos adicionales:}
+\begin{itemize}
+  \item Agua: $\rho = 1000\,\text{kg/m}^3$, $\mu = 1\times 10^{-3}\,\text{Pa\,s}$.
+  \item Cañería IPS Sch 40, $\varnothing_N = 1{\,}1/2''$:
+        diámetro interno $D \simeq 0{,}0408\,\text{m}$.
+  \item Lectura del manómetro del Pitot:
+        $\Delta P = 6{,}1\,\text{kPa} = 6{,}1\times 10^3\,\text{Pa}$.
+\end{itemize}
+
+\noindent
+\textbf{Incógnita:} flujo másico de agua $\dot m$ [kg/s].
+
+%------------------------------------------------------------
+\subsubsection*{1. Hipótesis}
+
+\begin{enumerate}
+  \item Flujo estacionario de agua, incompresible.
+  \item Cañería de sección circular constante; flujo plenamente desarrollado.
+  \item Tubo Pitot simple con coeficiente de recuperación de presión
+        $C_p \approx 1$ (como en las notas de clase de medidores).
+  \item El Pitot está ubicado en el centro de la cañería, de modo que mide
+        la \emph{velocidad local máxima} $U_{\max}$.
+  \item Se supone que el flujo es completamente turbulento en la cañería,
+        por lo que el cociente entre velocidad media y máxima
+        $\langle U\rangle/U_{\max}$ se toma de la curva de la página
+        correspondiente del teórico (relación de velocidades en función
+        del número de Reynolds).
+\end{enumerate}
+
+%------------------------------------------------------------
+\subsubsection*{2. Modelo del tubo Pitot}
+
+\paragraph{2.1. Relación entre $\Delta P$ y la velocidad máxima.}
+
+El tubo Pitot mide la diferencia entre presión total y estática en el punto
+donde está inmerso. Despreciando pérdidas internas en el Pitot e introduciendo
+un coeficiente $C_p \approx 1$, la relación entre la lectura de presión
+y la velocidad local máxima $U_{\max}$ es
+
+\[
+\Delta P = \frac{1}{2}\,\rho\,U_{\max}^2
+\quad\Longrightarrow\quad
+U_{\max} = \sqrt{\frac{2\,\Delta P}{\rho}}.
+\]
+
+Sustituyendo:
+
+\[
+U_{\max}
+= \sqrt{\frac{2\cdot 6{,}1\times 10^3}{1000}}
+= \sqrt{12{,}2}
+\approx 3{,}49\,\text{m/s}.
+\]
+
+\paragraph{2.2. Cálculo del número de Reynolds.}
+
+Primero evaluamos el número de Reynolds basado en la velocidad máxima:
+
+\[
+\mathrm{Re}_{\max}
+= \frac{\rho\,U_{\max} D}{\mu}
+= \frac{1000\cdot 3{,}49\cdot 0{,}0408}{1\times 10^{-3}}
+\approx 1{,}4\times 10^5.
+\]
+
+Este valor se sitúa en la región completamente turbulenta de la curva
+$\langle U\rangle/U_{\max}$ vs. $(D\,U_{\max}\rho/\mu)$ incluida en las
+notas de clase (medidores\_caudal, págs.~29--35).
+
+\paragraph{2.3. Relación entre velocidad media y máxima.}
+
+De la gráfica ``Relación de velocidades en función del número de Reynolds''
+para $D\,U_{\max}\rho/\mu \sim 10^5$ se lee:
+
+\[
+\frac{\langle U\rangle}{U_{\max}} \simeq 0{,}83.
+\]
+
+Por tanto, la velocidad media en la cañería es
+
+\[
+\langle U\rangle = 0{,}83\,U_{\max}
+\approx 0{,}83\cdot 3{,}49
+\approx 2{,}90\,\text{m/s}.
+\]
+
+%------------------------------------------------------------
+\subsubsection*{3. Caudal volumétrico y flujo másico}
+
+El área de la sección de la cañería es
+
+\[
+A = \frac{\pi D^2}{4}
+  = \frac{\pi (0{,}0408)^2}{4}
+  \approx 1{,}31\times 10^{-3}\,\text{m}^2.
+\]
+
+El caudal volumétrico resulta
+
+\[
+Q = \langle U\rangle\,A
+  \approx 2{,}90\cdot 1{,}31\times 10^{-3}
+  \approx 3{,}8\times 10^{-3}\,\text{m}^3/\text{s}.
+\]
+
+El flujo másico de agua es
+
+\[
+\dot m = \rho\,Q
+       = 1000\cdot 3{,}8\times 10^{-3}
+       \approx 3{,}8\,\text{kg/s}.
+\]
+
+\[
+\boxed{\dot m \approx 3{,}8\ \text{kg/s}.}
+\]
+
+%------------------------------------------------------------
+\subsubsection*{4. Verificación de coherencia física}
+
+\paragraph{Número de Reynolds con velocidad media.}
+
+Con la velocidad media obtenida:
+
+\[
+\mathrm{Re} = \frac{\rho\,\langle U\rangle D}{\mu}
+            = \frac{1000\cdot 2{,}90\cdot 0{,}0408}{1\times 10^{-3}}
+            \approx 1{,}2\times 10^5,
+\]
+
+que confirma el régimen plenamente turbulento, consistente con el uso
+de la relación $\langle U\rangle/U_{\max}\simeq 0{,}83$ tomada de la curva.
+
+\paragraph{Comentario final.}
+
+El procedimiento seguido es exactamente el del teórico de medidores:
+\begin{enumerate}
+  \item se obtiene $U_{\max}$ a partir de la lectura del Pitot,
+  \item se calcula $\mathrm{Re}_{\max}$ y se localiza el punto en la gráfica
+        $\langle U\rangle/U_{\max}$ vs. $D\,U_{\max}\rho/\mu$,
+  \item se determina la velocidad media a partir de 
+        $\langle U\rangle/U_{\max}$,
+  \item y finalmente se halla el flujo másico 
+        $\dot m = \rho\,\langle U\rangle A$.
+\end{enumerate}
+El valor $\dot m \approx 3{,}8\,\text{kg/s}$ es razonable para una cañería
+de $1{\,}1/2''$ con una diferencia de presión de Pitot del orden de varios kPa.
+
+\end{document}

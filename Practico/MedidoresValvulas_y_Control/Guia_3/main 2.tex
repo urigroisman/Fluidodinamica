@@ -1,0 +1,324 @@
+%============================================================
+% PREÁMBULO OFICIAL FLUIDODINAMICA_BASE
+%============================================================
+
+\documentclass[12pt, a4paper]{article}
+
+%------------------------------------------------------------
+% Idioma, codificación y tipografía
+%------------------------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}        % Tipografía moderna, clara y apta para PDF
+\usepackage{microtype}      % Optimiza microtipografía (ideal para libros y apuntes)
+
+%------------------------------------------------------------
+% Matemática
+%------------------------------------------------------------
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{bm}             % Vectores y tensores en negrita: \bm{u}
+\usepackage{mathtools}      % Extensiones de amsmath
+\usepackage{siunitx}        % Notación correcta de unidades SI
+\sisetup{
+  locale = DE,            % usa coma decimal si querés; cambiar a US para punto
+  per-mode = symbol,
+  exponent-product = \cdot,
+  separate-uncertainty = true
+}
+
+%------------------------------------------------------------
+% Gráficos y figuras
+%------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}     % Figuras con subfiguras
+\usepackage{wrapfig}
+
+%------------------------------------------------------------
+% Diseño de página
+%------------------------------------------------------------
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  left=25mm,
+  right=25mm,
+  top=25mm,
+  bottom=25mm
+}
+
+\usepackage{setspace}       % Control de espaciado (opcional)
+\onehalfspacing             % Espaciado 1.5 (queda excelente para apuntes)
+
+%------------------------------------------------------------
+% Tablas profesionales
+%------------------------------------------------------------
+\usepackage{booktabs}       % Líneas horizontales profesionales
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{longtable}
+
+%------------------------------------------------------------
+% Enlaces
+%------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}  % Enlaces sin recuadros
+
+%------------------------------------------------------------
+% Colores y cajas
+%------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbset{
+  colback = white,
+  colframe = black,
+  arc = 2mm,
+  boxrule = 0.6pt
+}
+
+%------------------------------------------------------------
+% Ambientes personalizados
+%------------------------------------------------------------
+
+% Entorno para ejercicios
+\newenvironment{ejercicio}[1][]{
+  \begin{tcolorbox}[title={\textbf{Ejercicio #1}}, colback=gray!5]
+}{
+  \end{tcolorbox}
+}
+
+% Entorno para soluciones
+\newenvironment{solucion}{
+  \begin{tcolorbox}[title={\textbf{Solución}}, colback=blue!3]
+}{
+  \end{tcolorbox}
+}
+
+% Para dejar comentarios o notas al margen
+\newcommand{\nota}[1]{\textcolor{blue}{\textbf{#1}}}
+
+%============================================================
+% FIN DEL PREÁMBULO
+%============================================================
+\begin{document}
+
+%============================================================
+% Ejercicio c.3 – Venturi + válvula de control en línea de proceso
+%============================================================
+
+\subsection*{Ejercicio c.3: Medición y control de caudal con Venturi y válvula}
+
+Se requiere regular el caudal de agua que ingresa a un reactor que opera a
+presión atmosférica. El sistema de control previsto incluye un medidor Venturi,
+cuya señal de presión diferencial es enviada a un controlador que actúa sobre la
+posición del obturador de una válvula de regulación. El caudal debe poder
+ajustarse en el rango $10\text{–}50\ \text{m}^3/\text{h}$.
+
+Las curvas características de tres válvulas candidatas (A, B y C) son provistas
+por el fabricante y expresan el porcentaje del caudal máximo que pasa por la
+válvula en función de la \% de apertura, \emph{para una caída de presión fija}
+a través de la válvula. Las constantes de pérdida de carga para las válvulas
+totalmente abiertas son $K_A=1$, $K_B=6$ y $K_C=7$.
+
+\bigskip
+
+\noindent\textbf{Datos adicionales:}
+\begin{itemize}
+  \item La presión en la sección del manómetro varía entre 2 y 3 bar(g).
+  \item Longitud equivalente de la tubería: $L_e = 75\ \text{m}$.
+  \item Tubería: diámetro nominal $3''$ Sch40, rugosidad $5\times 10^{-5}\ \text{m}$.
+  \item Venturi: relación de diámetros $\beta = 0{,}4$, diámetro máximo igual al de la tubería.
+  \item Propiedades del agua: $\rho = 1000\ \text{kg/m}^3$, $\mu = 1\times 10^{-3}\ \text{Pa\,s}$.
+\end{itemize}
+
+\noindent\textbf{Incógnitas:}
+\begin{itemize}
+  \item[(a)] Rango de lectura del manómetro diferencial del Venturi para $10\text{–}50\ \text{m}^3/\text{h}$.
+  \item[(a)] Calidad cualitativa de la señal para un lazo de control de caudal.
+  \item[(b)] Rango de apertura de las válvulas A, B y C para cubrir el rango de operación.
+  \item[(b)] Selección o descarte de alguna válvula en base a su característica.
+\end{itemize}
+
+%============================================================
+\subsubsection*{1. Hipótesis de modelado}
+\begin{enumerate}
+  \item Flujo estacionario, agua incompresible.
+  \item Flujo turbulento en la línea (se verificará con Reynolds).
+  \item Venturi operado en condiciones de líquido → factor de expansibilidad $Y=1$.
+  \item Coeficiente de descarga del Venturi según teórico: 
+        \[
+        C_D = 0{,}9858 - 0{,}196\,\beta^{4{,}5}.
+        \]
+  \item Válvula modelada mediante pérdida de carga cuadrática:
+        \[
+        \Delta P = C\,K_v\,Q^2,
+        \]
+        válida para válvulas en servicio turbulento.
+  \item Curvas del fabricante: $\Delta P = \text{cte}$ para todos los puntos → 
+        se cumple
+        \[
+        \frac{Q_x}{Q_{\max}}
+        = \sqrt{\frac{K_{v,\mathrm{TA}}}{K_{v,x}}},
+        \]
+        lo que justifica el uso de \%Q\(_{\max}\) como ratio de caudal relativo.
+\end{enumerate}
+
+%============================================================
+\subsubsection*{2. Geometría del Venturi y áreas}
+La tubería $3''$ Sch40 tiene diámetro interno
+\[
+D \approx 0{,}078\ \text{m},
+\qquad
+A_1 = \frac{\pi D^2}{4}
+    \approx 4{,}77\times 10^{-3}\ \text{m}^2.
+\]
+
+El estrechamiento del Venturi es ($\beta = 0{,}4$)
+\[
+d = \beta D = 0{,}4\cdot 0{,}078 \approx 0{,}031\ \text{m},
+\qquad
+A_2 = \frac{\pi d^2}{4} \approx 7{,}65\times 10^{-4}\ \text{m}^2,
+\]
+\[
+1-\beta^4 = 1 - (0{,}4)^4 = 0{,}9744,
+\qquad
+C_D = 0{,}9858 - 0{,}196\beta^{4{,}5} \approx 0{,}9826.
+\]
+
+%============================================================
+\subsubsection*{3. Parte (a): Lectura del manómetro del Venturi}
+
+La ecuación reducida de Venturi para líquido incompresible es
+\[
+Q = C_D\,A_2
+\sqrt{\frac{2\,\Delta P}{\rho\,(1-\beta^4)}},
+\]
+de donde
+\[
+\Delta P
+= 
+\frac{\rho (1-\beta^4)}{2}
+\left(\frac{Q}{C_D A_2}\right)^2.
+\]
+
+Convertimos el rango de caudales del problema:
+\[
+Q_{\min} = \frac{10}{3600} = 2{,}78\times 10^{-3}\ \text{m}^3/\text{s},
+\]
+\[
+Q_{\max} = \frac{50}{3600} = 1{,}39\times 10^{-2}\ \text{m}^3/\text{s}.
+\]
+
+\paragraph{Presión diferencial mínima.}
+\[
+\Delta P_{\min} =
+\frac{1000\cdot 0{,}9744}{2}
+\left(\frac{2{,}78\times 10^{-3}}
+           {0{,}9826\cdot 7{,}65\times 10^{-4}}\right)^2
+\approx 6{,}66\times 10^{3}\ \text{Pa}.
+\]
+
+\paragraph{Presión diferencial máxima.}
+\[
+\Delta P_{\max}
+= \Delta P_{\min}
+  \left(\frac{Q_{\max}}{Q_{\min}}\right)^2
+= 6{,}66\times 10^3 \left(\frac{50}{10}\right)^2
+\approx 1{,}67\times 10^{5}\ \text{Pa}.
+\]
+
+\[
+\boxed{
+6{,}7\ \text{kPa}\ \lesssim\ \Delta P\ \lesssim\ 167\ \text{kPa}
+}
+\]
+
+
+\paragraph{Comentario sobre la calidad de la regulación.}
+
+Dado que 
+\[
+\Delta P \propto Q^2,
+\]
+la sensibilidad en caudal es muy pobre en el extremo bajo del rango:
+mientras que $Q$ cambia por un factor de 5, la $\Delta P$ cambia por un factor 25.
+
+De aquí que:
+
+- Para $Q\approx 10\ \text{m}^3/h$, el transmisor opera muy cerca de cero → mala relación señal/ruido.
+- Para $Q\approx 50\ \text{m}^3/h$, la señal está cerca del 80 \% de escala → excelente resolución.
+
+De no usarse un transmisor con extracción de raíz cuadrada, la respuesta del lazo
+sería extremadamente no lineal.
+
+\[
+\text{Conclusión: el Venturi tiene buena sensibilidad media–alta, pobre en caudales bajos.}
+\]
+
+%============================================================
+\subsubsection*{4. Parte (b): Válvulas de control y rango de apertura}
+
+Tomamos la ecuación general de pérdida de carga para válvulas operando
+en régimen turbulento, modelo Crane:
+
+\[
+\Delta P = C\,K_v\,Q^2.
+\]
+
+Dado que las curvas del fabricante están construidas a $\Delta P=\text{cte}$, para dos
+condiciones de apertura $x$ y totalmente abierta (TA):
+
+\[
+C\,K_{v,x}\,Q_x^2 = C\,K_{v,\mathrm{TA}}\,Q_{\max}^2.
+\]
+
+entonces:
+
+\[
+\frac{Q_x}{Q_{\max}}
+= 
+\sqrt{\frac{K_{v,\mathrm{TA}}}{K_{v,x}}}.
+\]
+
+Esto justifica la definición de eje vertical en las curvas del fabricante:
+\[
+\%\ Q_{\max} = \frac{Q_x}{Q_{\max}}\times 100.
+\]
+
+\bigskip
+
+\paragraph{Interpretación de las curvas características.}
+
+A partir del gráfico:
+
+\begin{itemize}
+  \item \textbf{Válvula A} (quick-opening):  
+        El $20$\% de $Q_{\max}$ se alcanza con aperturas del orden $5$–$8$\%.  
+        Es extremadamente sensible a bajas aperturas.  
+        No apta para control modulante. Se descarta.
+  \item \textbf{Válvula B} (característica lineal):  
+        El $20$\% de caudal se obtiene en torno al $20$\% de apertura.  
+        Adecuada para control razonablemente lineal.  
+        Rango operativo útil: $20$–$100$\%.
+  \item \textbf{Válvula C} (equal-percentage):  
+        El $20$\% de $Q_{\max}$ se obtiene cerca de $40$–$45$\% de apertura.  
+        Permite controlar un rango amplio gracias a su comportamiento exponencial.  
+        Es la preferida en control de caudal con rangeabilidad 5:1.
+\end{itemize}
+
+\paragraph{Conclusión de selección.}
+
+\[
+\boxed{
+\text{A se descarta; B es aceptable; C es la más adecuada para control.}
+}
+\]
+
+La válvula C ofrece:
+
+- mejor distribución de sensibilidad sobre el rango 10–50 m$^3$/h,  
+- menor saturación en aperturas bajas,  
+- comportamiento estable ante variaciones de $\Delta P$,  
+- y mayor “rangeabilidad instalada”, como indican los apuntes de clase de control.
+
+\end{document}
+

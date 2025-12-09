@@ -1,0 +1,426 @@
+%============================================================
+% PREÁMBULO OFICIAL FLUIDODINAMICA_BASE
+%============================================================
+
+\documentclass[12pt, a4paper]{article}
+
+%------------------------------------------------------------
+% Idioma, codificación y tipografía
+%------------------------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}        % Tipografía moderna, clara y apta para PDF
+\usepackage{microtype}      % Optimiza microtipografía (ideal para libros y apuntes)
+
+%------------------------------------------------------------
+% Matemática
+%------------------------------------------------------------
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{bm}             % Vectores y tensores en negrita: \bm{u}
+\usepackage{mathtools}      % Extensiones de amsmath
+\usepackage{siunitx}        % Notación correcta de unidades SI
+\sisetup{
+  locale = DE,            % usa coma decimal si querés; cambiar a US para punto
+  per-mode = symbol,
+  exponent-product = \cdot,
+  separate-uncertainty = true
+}
+
+%------------------------------------------------------------
+% Gráficos y figuras
+%------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}     % Figuras con subfiguras
+\usepackage{wrapfig}
+
+%------------------------------------------------------------
+% Diseño de página
+%------------------------------------------------------------
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  left=25mm,
+  right=25mm,
+  top=25mm,
+  bottom=25mm
+}
+
+\usepackage{setspace}       % Control de espaciado (opcional)
+\onehalfspacing             % Espaciado 1.5 (queda excelente para apuntes)
+
+%------------------------------------------------------------
+% Tablas profesionales
+%------------------------------------------------------------
+\usepackage{booktabs}       % Líneas horizontales profesionales
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{longtable}
+
+%------------------------------------------------------------
+% Enlaces
+%------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}  % Enlaces sin recuadros
+
+%------------------------------------------------------------
+% Colores y cajas
+%------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbset{
+  colback = white,
+  colframe = black,
+  arc = 2mm,
+  boxrule = 0.6pt
+}
+
+%------------------------------------------------------------
+% Ambientes personalizados
+%------------------------------------------------------------
+
+% Entorno para ejercicios
+\newenvironment{ejercicio}[1][]{
+  \begin{tcolorbox}[title={\textbf{Ejercicio #1}}, colback=gray!5]
+}{
+  \end{tcolorbox}
+}
+
+% Entorno para soluciones
+\newenvironment{solucion}{
+  \begin{tcolorbox}[title={\textbf{Solución}}, colback=blue!3]
+}{
+  \end{tcolorbox}
+}
+
+% Para dejar comentarios o notas al margen
+\newcommand{\nota}[1]{\textcolor{blue}{\textbf{#1}}}
+
+%============================================================
+% FIN DEL PREÁMBULO
+%============================================================
+\begin{document}
+
+
+%============================================================
+% Ejercicio: Medidor Venturi en aire (flujo compresible moderado)
+%============================================================
+
+\subsection*{Ejercicio X: Medidor Venturi en una línea de aire}
+
+En una cañería de aire de $2''$ Sch 40, que opera a $25\,^\circ\text{C}$, se instala 
+un tubo Venturi como medidor de caudal. Un manómetro ubicado inmediatamente antes del 
+Venturi indica una presión estática de $P_1 = 1{,}00\,\text{bar}$ y otro manómetro 
+en la garganta indica $P_2 = 0{,}75\,\text{bar}$. 
+
+El diámetro interno de la cañería de $2''$ Sch 40 es 
+$D = 2{,}067'' \simeq 0{,}0525\,\text{m}$, mientras que el diámetro de la garganta es 
+$d = 3{,}0\,\text{cm} = 0{,}030\,\text{m}$. Se dispone de la siguiente correlación para 
+el coeficiente de descarga del Venturi:
+%
+\[
+C_D = 0{,}986 - 0{,}196\,\beta^{4{,}5},
+\qquad
+\beta = \frac{d}{D}.
+\]
+%
+Suponer que el aire se comporta como gas ideal y que la densidad puede 
+aproximarse con un valor medio adecuado a las condiciones de operación. 
+Utilizar, además, un factor de expansibilidad $Y$ representativo del efecto de 
+compresibilidad.
+
+\medskip
+
+\noindent
+\textbf{Datos adicionales:}
+\begin{itemize}
+  \item Aire: $\gamma = c_p/c_v = 1{,}4$, $\mu = 1{,}8\times 10^{-5}\,\text{Pa\,s}$,
+        $T = 25\,^\circ\text{C} \simeq 298\,\text{K}$.
+  \item Presiones: $P_1 = 1{,}00\,\text{bar}$, $P_2 = 0{,}75\,\text{bar}$.
+        Por tanto, $\Delta P = P_1 - P_2 = 0{,}25\,\text{bar} = 2{,}5\times 10^4\,\text{Pa}$.
+\end{itemize}
+
+\noindent
+\textbf{Se pide:} determinar el flujo másico de aire $\dot m$ en $\text{kg/h}$.
+
+%------------------------------------------------------------
+\subsubsection*{1. Datos, incógnitas y unidades}
+
+\begin{itemize}
+  \item Diámetro cañería (sección 1): $D = 0{,}0525\,\text{m}$.
+  \item Diámetro garganta (sección 2): $d = 0{,}030\,\text{m}$.
+        Relación de diámetros:
+        \[
+        \beta = \frac{d}{D} = \frac{0{,}030}{0{,}0525} \approx 0{,}571.
+        \]
+  \item Diferencia de presión entre tomas:
+        \[
+        \Delta P = P_1 - P_2 = 2{,}5\times 10^4\,\text{Pa}.
+        \]
+  \item Temperatura: $T \simeq 298\,\text{K}$.
+  \item Propiedades del aire (valor medio tabulado): 
+        \[
+        \rho \simeq 2{,}3\,\text{kg/m}^3
+        \]
+        evaluada a una presión media $P_\text{med} \approx 0{,}875\,\text{bar}$ 
+        y $T \simeq 298\,\text{K}$.
+  \item Se adopta un factor de expansibilidad típico $Y \simeq 0{,}92$.
+  \item Incógnita: flujo másico de aire $\dot m$ en $\text{kg/s}$ y su valor en $\text{kg/h}$.
+\end{itemize}
+
+%------------------------------------------------------------
+\subsubsection*{2. Hipótesis físicas y termodinámicas}
+
+\begin{enumerate}
+  \item Flujo estacionario, monofásico, de aire.
+  \item El aire se modela como gas ideal con propiedades constantes en el tramo considerado.
+  \item El Venturi se trata como un medidor por restricción de área, de acuerdo al teórico:
+        se parte del modelo ideal (continuidad + Bernoulli) y se introducen 
+        un coeficiente de descarga $C_D(\beta)$ y un factor de expansibilidad $Y$ para gas.
+  \item Se desprecia la diferencia de cota entre secciones 
+        ($z_1 \simeq z_2$) frente a los efectos de velocidad y presión.
+  \item La densidad se aproxima como constante e igual a un valor medio sujeto a verificación
+        posterior (a través del número de Mach).
+\end{enumerate}
+
+%------------------------------------------------------------
+\subsubsection*{3. Interpretación del sistema}
+
+El Venturi se inserta en una línea de aire en régimen permanente. La sección 1 corresponde 
+a la entrada del Venturi (diámetro $D$, presión estática $P_1$, velocidad $v_1$), mientras
+que la sección 2 corresponde a la garganta (diámetro $d$, presión estática $P_2$, 
+velocidad $v_2$). La reducción de área causa un aumento de la velocidad de escoamiento 
+en la garganta y una correspondiente caída de presión, medida por la diferencia 
+$\Delta P = P_1 - P_2$. Dicha diferencia de presión se utiliza para inferir el caudal 
+mediante la ecuación reducida de Venturi.
+
+%------------------------------------------------------------
+\subsubsection*{4. Ecuaciones gobernantes}
+
+\paragraph{Continuidad.}
+Para flujo estacionario con densidad aproximadamente uniforme entre 1 y 2, se tiene
+\[
+Q = v_1 A_1 = v_2 A_2,
+\]
+donde $A_1$ y $A_2$ son las áreas de las secciones 1 y 2, respectivamente. A partir de 
+esta relación se puede escribir
+\[
+v_1 = \frac{Q}{A_1},\qquad v_2 = \frac{Q}{A_2}, 
+\]
+y, usando $\beta^2 = A_2/A_1$, se cumple
+\[
+v_1 = \beta^2\,v_2.
+\]
+
+\paragraph{Ecuación de Bernoulli ideal.}
+Entre las secciones 1 y 2, despreciando diferencias de cota y pérdidas distribuidas entre 
+las tomas de presión, el Bernoulli ideal establece
+\[
+P_1 + \tfrac{1}{2}\rho v_1^2 = P_2 + \tfrac{1}{2}\rho v_2^2.
+\]
+Sustrayendo $P_2 + \tfrac{1}{2}\rho v_1^2$ de ambos lados y usando $v_1 = \beta^2 v_2$:
+\[
+P_1 - P_2 = \tfrac{1}{2}\rho\left(v_2^2 - v_1^2\right)
+          = \tfrac{1}{2}\rho v_2^2 \left(1 - \beta^4\right).
+\]
+Por tanto, la velocidad ideal en la garganta viene dada por
+\[
+v_{2,\text{ideal}} = \sqrt{\frac{2\,\Delta P}{\rho(1-\beta^4)}}.
+\]
+
+\paragraph{Modelo real del Venturi para gas.}
+Siguiendo el teórico de clase (medidores por restricción de área), las desviaciones del 
+modelo ideal se recogen mediante:
+\begin{itemize}
+  \item un coeficiente de descarga $C_D(\beta)$,
+  \item un factor de expansibilidad $Y$ para tener en cuenta la compresibilidad del aire.
+\end{itemize}
+La ecuación empírica para el flujo másico a través del Venturi se escribe entonces como
+\[
+\boxed{
+\dot m = C_D\,Y\,A_2\,\sqrt{\frac{2\,\rho\,\Delta P}{1-\beta^4}}
+}
+\]
+donde $\dot m$ es el caudal másico real.
+
+%------------------------------------------------------------
+\subsubsection*{5. Cierre del modelo}
+
+\begin{itemize}
+  \item Se utiliza la correlación dada para el coeficiente de descarga:
+        \[
+        C_D = 0{,}986 - 0{,}196\,\beta^{4{,}5}.
+        \]
+  \item Se toma un valor medio de densidad del aire 
+        $\rho \simeq 2{,}3\,\text{kg/m}^3$, evaluado a una presión media 
+        $P_\text{med} \approx 0{,}875\,\text{bar}$ y $T=298\,\text{K}$.
+  \item Se adopta un factor de expansibilidad representativo 
+        $Y \simeq 0{,}92$ para la caída de presión indicada.
+  \item Con estos valores, junto con $D$, $d$ y $\Delta P$, el modelo queda completamente 
+        determinado para el cálculo de $\dot m$.
+\end{itemize}
+
+%------------------------------------------------------------
+\subsubsection*{6. Desarrollo simbólico}
+
+La expresión simbólica final se ha obtenido en el apartado anterior:
+\[
+\dot m(\Delta P) 
+= C_D(\beta)\,Y\,A_2\,
+\sqrt{\frac{2\,\rho\,\Delta P}{1-\beta^4}}.
+\]
+No se requieren transformaciones adicionales; se procede a la sustitución numérica.
+
+%------------------------------------------------------------
+\subsubsection*{7. Sustitución numérica ordenada}
+
+\paragraph{a) Geometría.}
+
+Relación de diámetros:
+\[
+\beta = \frac{d}{D} 
+      = \frac{0{,}030}{0{,}0525}
+      = 0{,}571.
+\]
+
+Cálculo de $\beta^{4{,}5}$:
+\[
+\beta^{4{,}5} \approx (0{,}571)^{4{,}5} \approx 0{,}080.
+\]
+
+Coeficiente de descarga:
+\[
+C_D = 0{,}986 - 0{,}196\,\beta^{4{,}5}
+    \approx 0{,}986 - 0{,}196\times 0{,}080
+    \approx 0{,}97.
+\]
+
+Área de la garganta:
+\[
+A_2 = \frac{\pi d^2}{4}
+    = \frac{\pi(0{,}030)^2}{4}
+    = 7{,}068\times 10^{-4}\,\text{m}^2.
+\]
+
+Término geométrico en el denominador:
+\[
+1-\beta^4 = 1 - (0{,}571)^4
+          \approx 1 - 0{,}106
+          = 0{,}894.
+\]
+
+\paragraph{b) Término bajo la raíz.}
+
+Se evalúa
+\[
+\frac{2\,\rho\,\Delta P}{1-\beta^4}
+= \frac{2\cdot 2{,}3\cdot 2{,}5\times 10^4}{0{,}894}
+\approx 1{,}29\times 10^5\ \text{(m}^2/\text{s}^2).
+\]
+
+La raíz cuadrada resulta
+\[
+\sqrt{\frac{2\,\rho\,\Delta P}{1-\beta^4}}
+\approx \sqrt{1{,}29\times 10^5}
+\approx 3{,}59\times 10^2\,\text{m/s}.
+\]
+
+\paragraph{c) Cálculo del flujo másico.}
+
+Sustituyendo en la expresión reducida:
+\[
+\dot m 
+= C_D\,Y\,A_2\,
+  \sqrt{\frac{2\,\rho\,\Delta P}{1-\beta^4}}.
+\]
+
+Con $C_D \approx 0{,}97$, $Y \approx 0{,}92$, 
+$A_2 = 7{,}068\times 10^{-4}\,\text{m}^2$ y la raíz calculada:
+\[
+\dot m 
+\approx 0{,}97\cdot 0{,}92\cdot 7{,}068\times 10^{-4}
+       \cdot 3{,}59\times 10^2.
+\]
+
+Primero:
+\[
+0{,}97\cdot 0{,}92 \approx 0{,}892,
+\quad
+0{,}892\cdot 7{,}068\times 10^{-4}
+\approx 6{,}30\times 10^{-4}.
+\]
+
+Luego:
+\[
+\dot m 
+\approx 6{,}30\times 10^{-4}\cdot 3{,}59\times 10^2
+\approx 2{,}27\times 10^{-1}\,\text{kg/s}.
+\]
+
+Por tanto,
+\[
+\boxed{\dot m \approx 0{,}227\,\text{kg/s}}.
+\]
+
+Conversión a $\text{kg/h}$:
+\[
+\dot m_\text{(kg/h)} 
+= 0{,}227\,\frac{\text{kg}}{\text{s}}\cdot 3600\,\frac{\text{s}}{\text{h}}
+\approx 8{,}16\times 10^2\,\text{kg/h}.
+\]
+
+Es decir,
+\[
+\boxed{\dot m \approx 8{,}2\times 10^2\,\text{kg/h}}.
+\]
+
+%------------------------------------------------------------
+\subsubsection*{8. Verificación física y adimensional}
+
+\paragraph{Velocidad y número de Reynolds.}
+
+La velocidad en la garganta se obtiene como
+\[
+v_2 = \frac{\dot m}{\rho A_2}
+    \approx \frac{0{,}227}{2{,}3\cdot 7{,}068\times 10^{-4}}
+    \approx 1{,}4\times 10^2\,\text{m/s}.
+\]
+
+El número de Reynolds asociado a la garganta es
+\[
+\text{Re}_2 
+= \frac{\rho v_2 d}{\mu}
+\approx \frac{2{,}3\cdot 1{,}4\times 10^2\cdot 0{,}030}{1{,}8\times 10^{-5}}
+\sim 5\times 10^5,
+\]
+lo que indica un régimen fuertemente turbulento, coherente con el uso de un 
+coeficiente de descarga prácticamente constante.
+
+\paragraph{Número de Mach.}
+
+La velocidad del sonido en aire a $25\,^\circ\text{C}$ es aproximadamente 
+$a \simeq 346\,\text{m/s}$, por lo que
+\[
+\text{Ma}_2 = \frac{v_2}{a}
+            \approx \frac{140}{346}
+            \approx 0{,}4.
+\]
+
+Se trata de un número de Mach moderado: la compresibilidad no es despreciable, lo que 
+justifica la introducción del factor de expansibilidad $Y<1$ en el modelo de medición.
+
+%------------------------------------------------------------
+\subsubsection*{9. Comentario final}
+
+El modelo empleado sigue el esquema teórico de medidores por restricción de área: 
+se parte de las ecuaciones de continuidad y Bernoulli ideal, se introduce la relación 
+geométrica $1-\beta^4$ y luego se corrige el caudal ideal mediante el coeficiente de 
+descarga $C_D(\beta)$ y el factor de expansibilidad $Y$ para flujo compresible moderado
+de aire. 
+
+El valor obtenido, $\dot m \approx 0{,}23\,\text{kg/s}$ (del orden de $8\times 10^2\,\text{kg/h}$),
+es razonable para un Venturi en una cañería de $2''$ con las diferencias de presión dadas 
+y el régimen resultante (turbulento, $\text{Re}\sim 10^5$, $\text{Ma}\sim 0{,}4$) es coherente 
+con el uso de las correlaciones experimentales de $C_D$ y $Y$ adoptadas en la asignatura.
+
+\end{document}

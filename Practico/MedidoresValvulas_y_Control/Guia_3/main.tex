@@ -1,0 +1,347 @@
+%============================================================
+% PREÁMBULO OFICIAL FLUIDODINAMICA_BASE
+%============================================================
+
+\documentclass[12pt, a4paper]{article}
+
+%------------------------------------------------------------
+% Idioma, codificación y tipografía
+%------------------------------------------------------------
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}        % Tipografía moderna, clara y apta para PDF
+\usepackage{microtype}      % Optimiza microtipografía (ideal para libros y apuntes)
+
+%-----------------------------------------------------------------------
+% FORMATO GENERAL PARA EJERCICIOS (FLUIDODINAMICA_BASE)
+%-----------------------------------------------------------------------
+
+% Más separación entre párrafos
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+
+% Más separación vertical antes de subsections
+\usepackage{titlesec}
+\titlespacing*{\subsection}{0pt}{1.5em}{0.7em}
+
+% Subsections en negrita, mismo tamaño que el texto
+\titleformat{\subsection}
+  {\bfseries\normalsize}   % formato del título
+  {\thesubsection}         % número
+  {0.7em}                  % separación horizontal
+  {}                       % código antes del título
+
+% Título superior institucional personalizado
+\newcommand{\TituloEjercicio}{
+    \begin{center}
+        {\Large \textbf{FLUIDODINÁMICA FING}}\\[0.3em]
+        {\large \textbf{Resolución de ejercicios, parciales y exámenes}}\\[0.8em]
+        {\normalsize Instituto Newton}\\
+        {\normalsize Uri Groisman}\\
+        {\normalsize Diciembre 2025} % ← si preferís mes y año fijo cambiar aquí
+    \end{center}
+
+    \vspace{2em}
+}
+
+% Encabezados de párrafo: negrita, mismo tamaño que el texto
+\titleformat{\paragraph}[runin]
+  {\bfseries\normalsize}   % formato: negrita, tamaño normal
+  {\theparagraph}          % número (si no quieres numeración, ver abajo)
+  {0.7em}                  % espacio entre el título y el texto
+  {}                       % código antes del título
+  []                       % código después del título
+
+%------------------------------------------------------------
+% Matemática
+%------------------------------------------------------------
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{bm}             % Vectores y tensores en negrita: \bm{u}
+\usepackage{mathtools}      % Extensiones de amsmath
+\usepackage{siunitx}        % Notación correcta de unidades SI
+\sisetup{
+  locale = DE,            % usa coma decimal si querés; cambiar a US para punto
+  per-mode = symbol,
+  exponent-product = \cdot,
+  separate-uncertainty = true
+}
+
+%------------------------------------------------------------
+% Gráficos y figuras
+%------------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}     % Figuras con subfiguras
+\usepackage{wrapfig}
+
+%------------------------------------------------------------
+% Diseño de página
+%------------------------------------------------------------
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  left=25mm,
+  right=25mm,
+  top=25mm,
+  bottom=25mm
+}
+
+\usepackage{setspace}       % Control de espaciado (opcional)
+\onehalfspacing             % Espaciado 1.5 (queda excelente para apuntes)
+
+%------------------------------------------------------------
+% Tablas profesionales
+%------------------------------------------------------------
+\usepackage{booktabs}       % Líneas horizontales profesionales
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{longtable}
+
+%------------------------------------------------------------
+% Enlaces
+%------------------------------------------------------------
+\usepackage[hidelinks]{hyperref}  % Enlaces sin recuadros
+
+%------------------------------------------------------------
+% Colores y cajas
+%------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbset{
+  colback = white,
+  colframe = black,
+  arc = 2mm,
+  boxrule = 0.6pt
+}
+
+%------------------------------------------------------------
+% Ambientes personalizados
+%------------------------------------------------------------
+
+% Entorno para ejercicios
+\newenvironment{ejercicio}[1][]{
+  \begin{tcolorbox}[title={\textbf{Ejercicio #1}}, colback=gray!5]
+}{
+  \end{tcolorbox}
+}
+
+% Entorno para soluciones
+\newenvironment{solucion}{
+  \begin{tcolorbox}[title={\textbf{Solución}}, colback=blue!3]
+}{
+  \end{tcolorbox}
+}
+
+% Para dejar comentarios o notas al margen
+\newcommand{\nota}[1]{\textcolor{blue}{\textbf{#1}}}
+
+%============================================================
+% FIN DEL PREÁMBULO
+%============================================================
+
+
+\begin{document}
+
+\TituloEjercicio
+
+%-------------------------------------------------------
+% TÍTULO DEL EJERCICIO
+%-------------------------------------------------------
+
+\section*{Ejercicio e.2}
+
+{\small Estimación de la constante de pérdida de carga $K_x$ }
+
+\vspace{1.5em}
+
+%-------------------------------------------------------
+% CONTENIDO
+%-------------------------------------------------------
+
+
+
+
+\subsection*{1. Reformulación sintética}
+
+Se transfiere un aceite lubricante entre dos tanques mediante una tubería de $D=50\,$mm. 
+En una sección de la línea existe un accesorio desconocido $X$. Sobre él se instaló un medidor diferencial con una toma de presión de impacto en el eje y una toma de presión estática rasante a la pared. Ambas están conectadas a un manómetro diferencial con fluido manométrico de densidad elevada. 
+
+Cuando el manómetro indica $\Delta h_m=30\,$mm, el caudalímetro en línea registra $Q = 13\,$m$^3$/h. 
+Se pide determinar la constante de pérdida de carga del accesorio $X$, denotada por $K_x$.
+
+
+\subsection*{2. Datos e incógnitas}
+
+\begin{itemize}
+  \item Diámetro interno: $D = 0.050\,$m.
+  \item Lectura manométrica: $\Delta h_m = 0.030\,$m.
+  \item Caudal volumétrico: $Q = 13/3600\,$m$^3$/s.
+  \item Aceite: $\rho = 940\,$kg/m$^3$, \quad $\mu = 5\times 10^{-3}\,$Pa·s.
+  \item Fluido manométrico: $\rho_m = 13500\,$kg/m$^3$.
+  \item Gravedad: $g = 9.81\,$m/s$^2$.
+  \item Incógnita: constante de pérdida del accesorio $K_x$.
+\end{itemize}
+
+
+\subsection*{3. Hipótesis físicas}
+
+\begin{itemize}
+  \item Flujo permanente, incompresible.
+  \item Propiedades del aceite constantes.
+  \item Régimen turbulento en la tubería (verificación mediante $Re$).
+  \item Puntos estático y de impacto a la misma cota.
+  \item Se desprecia la pérdida en las líneas que conectan las tomas con el manómetro.
+  \item El perfil turbulento se modela mediante la relación experimental $\langle U\rangle/U_{\max}(Re)$ provista en la bibliografía del curso.
+\end{itemize}
+
+
+\subsection*{4. Interpretación de presiones y frontera de control}
+
+El punto de presión estática $s$ se obtiene con una toma rasante a la pared.  
+El punto de impacto $i$ corresponde a la presión de estancamiento en el eje del tubo, donde la velocidad local es $U_{\max}$.  
+
+El manómetro mide
+\[
+\Delta p = p_i - p_s,
+\]
+y esta diferencia se debe a la conversión de energía cinética del flujo en el tubo Pitot, más las pérdidas internas asociadas al accesorio $X$.
+
+
+\subsection*{5. Ecuaciones gobernantes}
+
+\paragraph{(a) Manómetro de dos líquidos.}
+
+Para dos puntos del \emph{mismo fluido} conectados por un manómetro en U, con fluido manométrico de densidad $\rho_m$,
+\[
+p_i - p_s = (\rho_m - \rho)\,g\,\Delta h_m.
+\]
+
+\paragraph{(b) Bernoulli entre el eje y el interior del tubo Pitot.}
+
+Tomando una línea de corriente que entra al tubo Pitot:
+\[
+\frac{p_s}{\rho g} + \frac{U_{\max}^2}{2g}
+=
+\frac{p_i}{\rho g} + h_{L,x},
+\]
+de donde
+\[
+\frac{p_i - p_s}{\rho g} 
+= \frac{U_{\max}^2}{2g} + h_{L,x}.
+\]
+
+\paragraph{(c) Modelo de pérdida localizada.}
+
+Para el accesorio $X$ se adopta
+\[
+h_{L,x} = K_x\,\frac{u^{2}}{2g},
+\]
+donde $u$ es la velocidad media en la sección.
+
+
+\subsection*{6. Ecuación reducida exacta}
+
+Igualando la expresión del manómetro con la obtenida desde Bernoulli:
+
+\[
+(\tfrac{\rho_m}{\rho}-1)\,\Delta h_m
+=
+\frac{U_{\max}^2}{2g} + K_x\,\frac{u^{2}}{2g}.
+\]
+
+Multiplicando por $2g$ y despejando $K_x$:
+
+\[
+K_x = 
+\frac{2(\rho_m-\rho)\,g\,\Delta h_m}{\rho\,u^{2}}
+-
+\frac{U_{\max}^2}{u^{2}}.
+\]
+
+El término $U_{\max}/u$ se obtiene de la correlación empírica del perfil turbulento:
+\[
+\frac{u}{U_{\max}} \approx 0.83 
+\quad\Rightarrow\quad 
+\frac{U_{\max}}{u} \approx 1.21.
+\]
+
+
+\subsection*{7. Cálculo numérico}
+
+\paragraph{7.1. Velocidad media.}
+
+Área:
+\[
+A = \frac{\pi D^2}{4}
+  = 1.9635\times 10^{-3}\,\text{m}^2.
+\]
+
+\[
+u = \frac{Q}{A}
+  = \frac{13/3600}{1.9635\times 10^{-3}}
+  \approx 1.84\,\text{m/s}.
+\]
+
+\paragraph{7.2. Número de Reynolds.}
+
+\[
+Re = \frac{\rho u D}{\mu}
+    \approx \frac{940\times 1.84\times 0.050}{5\times 10^{-3}}
+    \approx 1.7\times 10^{4}.
+\]
+
+\paragraph{7.3. Diferencia de presión manométrica.}
+
+\[
+\Delta p = (\rho_m-\rho)\,g\,\Delta h_m
+= (13500-940)\,9.81\,0.030
+\approx 3.70\times 10^{3}\,\text{Pa}.
+\]
+
+\paragraph{7.4. Primer término de $K_x$.}
+
+\[
+\frac{2\,\Delta p}{\rho\,u^2}
+=
+\frac{2\times 3.70\times 10^{3}}
+     {940\times (1.84)^2}
+\approx 2.33.
+\]
+
+\paragraph{7.5. Término cinético.}
+
+\[
+\left(\frac{U_{\max}}{u}\right)^2 
+\approx (1.21)^2
+\approx 1.46.
+\]
+
+\paragraph{7.6. Valor final.}
+
+\[
+K_x = 2.33 - 1.46 \approx 0.87.
+\]
+
+Redondeando según los datos del problema,
+\[
+\boxed{K_x \approx 0.86}.
+\]
+
+
+\subsection*{8. Verificaciones}
+
+\begin{itemize}
+  \item $K_x$ adimensional: verificación correcta.
+  \item Magnitud típica: valores de orden 1 son esperables para accesorios de baja obstrucción, consistente con el dispositivo.
+  \item $Re\gg 4000$: régimen turbulento plenamente desarrollado, justificando el uso de la curva $u/U_{\max}(Re)$.
+\end{itemize}
+
+
+\subsection*{9. Comentario ingenieril}
+
+El valor $K_x\approx 0.86$ indica una pérdida moderada, menor que la producida por válvulas globo o codos cerrados, pero no despreciable en un análisis de energía detallado. La medición confirma que la contribución de pérdidas internas del accesorio es coherente con el exceso de presión detectado por el manómetro respecto del término puramente dinámico asociado a la velocidad en el eje. Esto permite caracterizar el accesorio $X$ y utilizar este valor de $K_x$ en el cálculo global de pérdidas del sistema.
+
+
+\end{document}
+
