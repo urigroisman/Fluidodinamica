@@ -11,24 +11,43 @@ Este repositorio contiene el material teórico, práctico y de apoyo que los est
 
 ---
 
-## 📂 Estructura del repositorio
+## 📚 Estructura del repositorio *Fluidodinámica*
 
-```
+El repositorio se organiza de forma modular, siguiendo la estructura temática del curso e incluyendo material teórico, ejercicios prácticos, solvers numéricos y documentación complementaria.
+
+```text
 Fluidodinamica/
 ├── Practico/
-│   ├── Guia_1/                    ← enunciado + resolución en Julia
-│   ├── Guia 2/
-│   ├── Guia 3/
-│   ├── Guia 4/
-│   └── Taller Calc/              ← uso de LibreOffice para resolver problemas
-├── tablas-abacos/              ← ✅ Carpeta principal con datos técnicos
-│   ├── Diagrama de Moody.pdf
-│   ├── Tablas de Crane.pdf
-│   └── ...
-└── Teorico/
-    ├── Incompresible/            ← Apuntes en formato Markdown
-    ├── Compresible/
-    
+│   ├── Incompresible/                 ← Guías y ejercicios de fluidos incompresibles
+│   ├── Compresible/                   ← Guías y ejercicios de flujo compresible
+│   ├── MedidoresValvulas_y_Control/   ← Medidores (Venturi, orificio, Pitot), válvulas y control
+│   └── Maquinas/
+│       ├── Bombas/                    ← Problemas, guías y material asociado a bombas
+│       └── Compresores/               ← Problemas y material de compresores
+│
+├── Teorico/
+│   ├── Incompresible/                 ← Notas teóricas y referencias del bloque incompresible
+│   ├── Compresible/                   ← Teoría de flujo compresible, Mach, ondas, toberas
+│   ├── MedidoresValvulas_y_Control/   ← Teoría de medición de caudal y control de procesos
+│   └── Maquinas/
+│       ├── Bombas/                    ← Teoría de bombas, curvas H–Q, NPSH, semejanza
+│       └── Compresores/               ← Teoría de compresores, modelos termodinámicos y eficiencias
+│
+├── solvers/
+│   ├── CALC/                          ← Planillas ODS/Calc para resolución de sistemas no lineales
+│   └── Julia/                         ← Scripts y notebooks Julia (ejercicios asistidos por cómputo)
+│
+├── tablas_abacos/                     ← Diagramas, tablas Crane, ábacos y material de consulta
+├── Examenes/                          ← Enunciados oficiales de exámenes de la asignatura
+├── Parciales/                         ← Parciales resueltos y/o enunciados históricos
+│
+├── FL_BASE.md                         ← Metodología general FLUIDODINAMICA_BASE
+├── FL_BOMBAS.md                       ← Lineamientos específicos para bombas
+├── FL_COMPRESORES.md                  ← Lineamientos específicos para compresores
+├── FL_MEDIDORES_CONTROL.md            ← Lineamientos específicos para medidores y control
+├── preambulo_general_resolucion_ejercicios.tex
+│                                      ← Preambulo oficial para ejercicios en LaTeX
+└── README.md
 ```
 
 ---
